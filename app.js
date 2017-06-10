@@ -1,3 +1,4 @@
+//TODO:Warningが消えない、フッターのタブバーと被って邪魔
 import React from 'react';
 import {
     StyleSheet,
