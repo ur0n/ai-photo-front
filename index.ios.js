@@ -11,9 +11,9 @@ import {
   Text,
   View
 } from 'react-native';
-import App from './app'
+import App from './src/App'
 import { Provider } from 'react-redux'
-import configureStore from './configureStore'
+import configureStore from './src/store/configureStore'
 
 const store = configureStore()
 export default class AiPhoto extends Component {

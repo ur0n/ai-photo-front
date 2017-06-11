@@ -2,11 +2,11 @@ import React from 'react'
 import { TouchableHighlight, View, Text, StyleSheet ,ScrollView} from 'react-native'
 
 import { connect } from 'react-redux'
-import { fetchPeopleFromAPI } from './actions'
+import { fetchPeopleFromAPI } from '../actions/people'
 
 let styles
 
-const List = (props) => {
+const List = props => {
   const {
     container,
     text,
