@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableHighlight, View, Text, StyleSheet } from 'react-native'
+import { TouchableHighlight, View, Text, StyleSheet ,ScrollView} from 'react-native'
 
 import { connect } from 'react-redux'
 import { fetchPeopleFromAPI } from './actions'
@@ -20,6 +20,7 @@ const List = (props) => {
       <TouchableHighlight style={button} onPress={() => props.getPeople()}>
         <Text style={buttonText}>Load People</Text>
       </TouchableHighlight>
+      <ScrollView>
       {
         isFetching && <Text>Loading</Text>
       }
@@ -29,10 +30,12 @@ const List = (props) => {
             return <View key={i} >
               <Text>Name: {person.name}</Text>
               <Text>Birth Year: {person.birth_year}</Text>
+              <Text>____________________________</Text>
             </View>
           })
         ) : null
       }
+      </ScrollView>
     </View>
   )
 }
