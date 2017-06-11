@@ -8,11 +8,11 @@ import {
     Router,
 } from 'react-native-router-flux';
 
-import List from './components/List'
-import Camera from './components/Camera'
-import Season from './components/Season'
+import List from './containers/List'
+import Camera from './containers/Camera'
+import Season from './containers/Season'
 
-import TabIcon from './TabIcon';
+import TabIcon from './components/TabIcon';
 
 const styles = StyleSheet.create({
     tabBar: {

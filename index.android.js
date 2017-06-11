@@ -11,7 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
-import App from './app'
+import App from './srs/App'
 export default class AiPhoto extends Component {
   render() {
     return <App/>

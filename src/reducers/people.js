@@ -1,4 +1,4 @@
-import { FETCHING_PEOPLE, FETCHING_PEOPLE_FAILURE, FETCHING_PEOPLE_SUCCESS } from '../components/constants'
+import { FETCHING_PEOPLE, FETCHING_PEOPLE_FAILURE, FETCHING_PEOPLE_SUCCESS } from '../constants'
 
 const initialState ={
   people: [],
