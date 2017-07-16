@@ -68,13 +68,13 @@ const styles = StyleSheet.create({
 function mapStateToProps(state){
   return {
     cameraRoll: state.cameraRoll
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch){
   return {
     getPhotos: () => dispatch(getPhotosForCameraRoll())
-  }
+  };
 }
 export default connect(
   mapStateToProps,

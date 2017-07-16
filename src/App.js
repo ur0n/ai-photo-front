@@ -9,17 +9,17 @@ import {
     Actions
 } from 'react-native-router-flux';
 
-import List from './containers/List'
-import Camera from './containers/Camera'
-import Season from './containers/Season'
-import FromCameraRoll from './containers/FromCameraRoll'
+import List from './containers/List';
+import Camera from './containers/Camera';
+import Season from './containers/Season';
+import FromCameraRoll from './containers/FromCameraRoll';
 import TabIcon from './components/TabIcon';
 
 const styles = StyleSheet.create({
     tabBar: {
         flex: 1,
         backgroundColor: 'rgb(50, 207, 202)',
-    },
+    }
 });
 
 const App = () => (
