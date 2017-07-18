@@ -1,10 +1,10 @@
-import React from 'react'
-import { TouchableHighlight, View, Text, StyleSheet ,ScrollView} from 'react-native'
+import React from 'react';
+import { TouchableHighlight, View, Text, StyleSheet ,ScrollView} from 'react-native';
 
-import { connect } from 'react-redux'
-import { fetchPeopleFromAPI } from '../actions/people'
+import { connect } from 'react-redux';
+import { fetchPeopleFromAPI } from '../actions/people';
 
-let styles
+let styles;
 
 const List = props => {
   const {
@@ -12,7 +12,7 @@ const List = props => {
     text,
     button,
     buttonText
-  } = styles
+  } = styles;
   const { people, isFetching } = props.people;
   return (
     <View style={container}>
@@ -37,7 +37,7 @@ const List = props => {
       }
       </ScrollView>
     </View>
-  )
+  );
 }
 
 styles = StyleSheet.create({
@@ -58,21 +58,21 @@ styles = StyleSheet.create({
   buttonText: {
     color: 'white'
   }
-})
+});
 
 function mapStateToProps (state) {
   return {
     people: state.people
-  }
+  };
 }
 
 function mapDispatchToProps (dispatch) {
   return {
     getPeople: () => dispatch(fetchPeopleFromAPI())
-  }
+  };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(List)
+)(List);

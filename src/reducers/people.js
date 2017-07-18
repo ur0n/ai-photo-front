@@ -1,4 +1,4 @@
-import { FETCHING_PEOPLE, FETCHING_PEOPLE_FAILURE, FETCHING_PEOPLE_SUCCESS } from '../constants'
+import { FETCHING_PEOPLE, FETCHING_PEOPLE_FAILURE, FETCHING_PEOPLE_SUCCESS } from '../constants/people';
 
 const initialState ={
   people: [],
@@ -14,20 +14,20 @@ export default function peopleReducer(state = initialState, action){
         ...state,
         isFetching: true,
         people: []
-      }
+      };
     case FETCHING_PEOPLE_SUCCESS:
       return {
         ...state,
         isFetching:false,
         people: action.data
-      }
+      };
     case FETCHING_PEOPLE_FAILURE:
       return{
         ...state,
         isFetching: false,
         error: true
-      }
+      };
     default:
-      return state
+      return state;
   }
 }
