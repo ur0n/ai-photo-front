@@ -10,6 +10,7 @@ import {
 } from 'react-native-router-flux';
 
 import List from './containers/List';
+import PhotoList from './containers/PhotoList';
 import Camera from './containers/Camera';
 import Season from './containers/Season';
 import FromCameraRoll from './containers/FromCameraRoll';
@@ -27,7 +28,7 @@ const App = () => (
   <Router>
     <Scene key="root">
       <Scene key="tabbar" tabs tabBarStyle={styles.tabBar}>
-        <Scene key="list" initial component={List} title="List" icon={TabIcon} />
+        <Scene key="list" initial component={PhotoList} title="List" icon={TabIcon} />
         <Scene key="addPhoto" title="CameraRoll" icon={TabIcon} onPress={() => Actions.add()} />
         <Scene key="Season" component={Season} title="Season" icon={TabIcon} />
       </Scene>
