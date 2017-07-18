@@ -5,7 +5,7 @@ export function storePhotoToServer(photo){
     dispatch(postPhoto())
     const form = createForm(photo);
     // fetch('http://http://133.242.229.206/', {
-    fetch('http://53e52a4c.ngrok.io', {
+    fetch('http://e85bce76.ngrok.io', {
       method: 'POST',
       body: form,
       headers: {
