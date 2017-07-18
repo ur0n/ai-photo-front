@@ -1,7 +1,8 @@
-import { GET_PHOTOS, GET_PHOTOS_SUCCESS, GET_PHOTOS_FAILURE } from '../constants/cameraRoll';
+import { GET_PHOTOS, GET_PHOTOS_SUCCESS, GET_PHOTOS_FAILURE, SELECT_PHOTO } from '../constants/cameraRoll';
 
 const initialState = {
   photos: [],
+  selectPhoto: null,
   isFetched: false,
   error: false
 };
@@ -19,6 +20,7 @@ export default function cameraRollReducer(state = initialState, action){
     return {
       ...state,
       photos: action.data,
+      selectPhoto: action.data[0],
       isFetched: true
     };
     case GET_PHOTOS_FAILURE:
@@ -27,6 +29,11 @@ export default function cameraRollReducer(state = initialState, action){
       error: true,
       isFetched: false
     };
+    case SELECT_PHOTO:
+    return {
+      ...state,
+      selectPhoto: action.data
+    }
     default:
     return state;
   }

@@ -9,8 +9,9 @@ import {
     StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getPhotosForCameraRoll } from '../actions/cameraRoll';
+import { getPhotosForCameraRoll, selectUploadPhoto } from '../actions/cameraRoll';
 
+//TODO 画像のトリミング
 class FromCameraRoll extends Component {
   constructor(props){
     super(props);
@@ -21,15 +22,26 @@ class FromCameraRoll extends Component {
   }
 
   render(){
-    const { photos, isFetched } = this.props.cameraRoll;
+    const { photos, selectPhoto, isFetched } = this.props.cameraRoll;
     return (
       <View style={styles.container}>
+        <View>
+        {
+          isFetched? (
+            <Image key={"first"} style={styles.bigPhoto} source={{uri: selectPhoto.uri}} />
+          ) : null
+        }
+      </View>
         <ScrollView>
           <View style={styles.photoGrid}>
             {
               isFetched? (
                 photos.map((photo, i) => {
-                  return <Image key={i} style={styles.photo} source={{uri: photo.uri}} />
+                  return (
+                    <TouchableHighlight key={i} onPress={() => this.props.selectPhoto(photo)}>
+                      <Image key={i} style={styles.photo} source={{uri: photo.uri}} />
+                    </TouchableHighlight>
+                  );
                 })
               ) : null
             }
@@ -46,12 +58,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10
   },
-  linkText: {
-    fontSize: 32,
-    color: 'rgb(95, 177, 237)',
-  },
-  text: {
-    textAlign: 'center'
+  bigPhoto: {
+    width: 353,
+    height: 400,
+    margin: 1
   },
   photo: {
     width: 116,
@@ -73,7 +83,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return {
-    getPhotos: () => dispatch(getPhotosForCameraRoll())
+    getPhotos: () => dispatch(getPhotosForCameraRoll()),
+    selectPhoto: photo => dispatch(selectUploadPhoto(photo))
   };
 }
 export default connect(

@@ -13,6 +13,7 @@ import List from './containers/List';
 import Camera from './containers/Camera';
 import Season from './containers/Season';
 import FromCameraRoll from './containers/FromCameraRoll';
+import PostPhoto from './containers/PostPhoto';
 import TabIcon from './components/TabIcon';
 
 const styles = StyleSheet.create({
@@ -32,10 +33,20 @@ const App = () => (
       </Scene>
       <Scene key="add" direction="vertical">
         <Scene key="addTabBar" tabs tabBarStyle={styles.tabBar} >
-          <Scene key="cameraRoll" component={FromCameraRoll} title="CameraRoll" icon={TabIcon} leftTitle="Cancel" onLeft={Actions.pop} />
+          <Scene
+            key="cameraRoll"
+            component={FromCameraRoll}
+            title="CameraRoll"
+            icon={TabIcon}
+            leftTitle="Cancel"
+            onLeft={Actions.pop}
+            rightTitle="Next"
+            onRight={() => Actions.postImage()}
+            />
           <Scene key="camera" component={Camera} title="Camera" icon={TabIcon} />
           <Scene key="othre" component={Season} title="Season" icon={TabIcon} />
         </Scene>
+        <Scene key="postImage" component={PostPhoto} title="PostImage" icon={TabIcon} />
       </Scene>
     </Scene>
   </Router>

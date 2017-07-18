@@ -1,4 +1,4 @@
-import { GET_PHOTOS, GET_PHOTOS_SUCCESS, GET_PHOTOS_FAILURE } from '../constants/cameraRoll';
+import { GET_PHOTOS, GET_PHOTOS_SUCCESS, GET_PHOTOS_FAILURE, SELECT_PHOTO } from '../constants/cameraRoll';
 import { CameraRoll } from 'react-native';
 
 export function getPhotosForCameraRoll(){
@@ -14,7 +14,11 @@ export function getPhotosForCameraRoll(){
   }
 }
 
-
+export function selectUploadPhoto(photo){
+  return dispatch => {
+    dispatch(selectPhoto(photo));
+  }
+}
 
 export function getPhotosStart(){
   return {
@@ -33,5 +37,12 @@ export function getPhotosFailure(err){
   return {
     type: GET_PHOTOS_FAILURE,
     err
+  };
+}
+
+export function selectPhoto(data){
+  return {
+    type: SELECT_PHOTO,
+    data
   };
 }
