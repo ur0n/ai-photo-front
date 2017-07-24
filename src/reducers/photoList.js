@@ -1,4 +1,4 @@
-import { FETCH_PHOTO_LIST, FETCH_PHOTO_LSIT_SUCCESS, FETCH_PHOTO_LSIT_FAILURE } from '../constants/photoList';
+import { FETCH_PHOTO_LIST, FETCH_PHOTO_LIST_SUCCESS, FETCH_PHOTO_LIST_FAILURE } from '../constants/photoList';
 
 const initialState = {
   photoList: [],
@@ -14,13 +14,13 @@ export default function photoListReducer(state = initialState, action){
       isFetched: false
     };
     break;
-    case FETCH_PHOTO_LSIT_SUCCESS:
+    case FETCH_PHOTO_LIST_SUCCESS:
     return {
       ...state,
       isFetched: true,
       photoList: action.data
     };
-    case FETCH_PHOTO_LSIT_FAILURE:
+    case FETCH_PHOTO_LIST_FAILURE:
     return {
       ...state,
       isFetched: false,
