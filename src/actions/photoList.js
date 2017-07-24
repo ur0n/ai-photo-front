@@ -30,7 +30,7 @@ export function fetchPhotoListSuccess(data){
 
 export function fetchpPhotoListFailure(err){
   return {
-    type: FETCH_PHOTO_LIST_FAILURE.
+    type: FETCH_PHOTO_LIST_FAILURE,
     err
   }
 }
