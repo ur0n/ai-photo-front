@@ -4,6 +4,7 @@ import {
     Text,
     Image,
     ScrollView,
+    Dimensions,
     TouchableHighlight,
     TouchableOpacity,
     StyleSheet,
@@ -25,28 +26,30 @@ class FromCameraRoll extends Component {
     const { photos, selectPhoto, isFetched } = this.props.cameraRoll;
     return (
       <View style={styles.container}>
-        <View>
-        {
-          isFetched? (
-            <Image key={"first"} style={styles.bigPhoto} source={{uri: selectPhoto.uri}} />
-          ) : null
-        }
-      </View>
-        <ScrollView>
-          <View style={styles.photoGrid}>
-            {
-              isFetched? (
-                photos.map((photo, i) => {
-                  return (
-                    <TouchableHighlight key={i} onPress={() => this.props.selectPhoto(photo)}>
-                      <Image key={i} style={styles.photo} source={{uri: photo.uri}} />
-                    </TouchableHighlight>
-                  );
-                })
-              ) : null
-            }
-          </View>
-        </ScrollView>
+        <View style={styles.selected}>
+          {
+            isFetched? (
+              <Image key={"first"} style={styles.selectedPhoto} source={{uri: selectPhoto.uri}} />
+            ) : null
+          }
+        </View>
+        <View style={{flex: 1}}>
+          <ScrollView>
+            <View style={styles.photoGrid}>
+              {
+                isFetched? (
+                  photos.map((photo, i) => {
+                    return (
+                      <TouchableHighlight key={i} onPress={() => this.props.selectPhoto(photo)}>
+                        <Image key={i} style={styles.photo} source={{uri: photo.uri}} />
+                      </TouchableHighlight>
+                    );
+                  })
+                ) : null
+              }
+            </View>
+          </ScrollView>
+        </View>
       </View>
     );
   }
@@ -54,26 +57,36 @@ class FromCameraRoll extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 100,
-    paddingLeft: 10,
-    paddingRight: 10
+    flex: 1,
+    justifyContent: 'center',
   },
-  bigPhoto: {
-    width: 353,
-    height: 400,
-    margin: 1
+  selected: {
+    flex: 2,
+    borderColor: 'black',
+    borderWidth: 2
   },
-  photo: {
-    width: 116,
-    height: 116,
-    margin: 1
+  selectedPhoto: {
+    flex: 1,
+    alignItems: 'stretch'
   },
   photoGrid: {
     flex: 1,
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  photo: {
+    flex: 1,
+    backgroundColor: 'red',
+    margin: 1,
+    width: getPhotoSize(),
+    height: getPhotoSize(),
   }
 });
+
+function getPhotoSize(){
+  return Dimensions.get('window').width / 4 - 2;
+}
 
 function mapStateToProps(state){
   return {
