@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
   },
   photo: {
     flex: 1,
-    backgroundColor: 'red',
     margin: 1,
     width: getPhotoSize(),
     height: getPhotoSize(),
