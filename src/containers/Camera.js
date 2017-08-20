@@ -21,18 +21,21 @@ class Camera1 extends Component {
   get typeIcon() {
     const { back, front } = Camera.constants.Type;
 
-    return this.props.camera.type === back ?
+    return this.props.camera.camera.type === back ?
     require('../../assets/ic_camera_rear_white.png') : require('../../assets/ic_camera_front_white.png');
   }
 
   get flashIcon() {
     const { auto, on, off } = Camera.constants.FlashMode;
+    const flashMode = this.props.camera.camera.flashMode;
 
-    if (this.props.camera.flashMode === auto) {
+    if (flashMode === auto) {
       return require('../../assets/ic_flash_auto_white.png');
-    } else if (this.props.camera.flashMode === on) {
+    } else if (flashMode === on) {
       return require('../../assets/ic_flash_on_white.png');
-    } else if (this.props.camera.flashMode === off) {
+    } else if (flashMode === off) {
+      return require('../../assets/ic_flash_off_white.png');
+    } else {
       return require('../../assets/ic_flash_off_white.png');
     }
   }
@@ -117,14 +120,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topOverlay: {
-    top: 0,
+    top: 70,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   bottomOverlay: {
-    bottom: 0,
+    bottom: 40,
     backgroundColor: 'rgba(0,0,0,0.4)',
     flexDirection: 'row',
     justifyContent: 'center',
