@@ -3,7 +3,7 @@ import { FETCH_PHOTO_LIST, FETCH_PHOTO_LIST_SUCCESS, FETCH_PHOTO_LIST_FAILURE } 
 export function fetchPhotosFromAPI(){
   return dispatch => {
     dispatch(fetchPhotoList());
-    fetch("http://e85bce76.ngrok.io/list?page=1&lim=100")
+    fetch("http://aiph.work/list?page=1&lim=100")
     .then(res => res.json())
     .then(resJson => {
       console.log(resJson)
