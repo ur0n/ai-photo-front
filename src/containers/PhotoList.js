@@ -25,20 +25,22 @@ class PhotoList extends Component{
 
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <View style={styles.photoContainer}>
-            {
-              isFetched? photoList.Photos.map((photo, i) => {
-                const ps = photo.image.String;
-                if(ps.substring(ps.length - 3, ps.length) === "jpg"){
-                  return <Image key={i} style={styles.photo} source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + photo.image.String}} />
-                }else{
-                  return null;
-                }
-              }) : null
-          }
+        <View style={styles.contents}>
+          <ScrollView>
+            <View style={styles.photoContainer}>
+              {
+                isFetched? photoList.Photos.map((photo, i) => {
+                  const ps = photo.image.String;
+                  if(ps.substring(ps.length - 3, ps.length) === "jpg"){
+                    return <Image key={i} style={styles.photo} source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + photo.image.String}} />
+                  }else{
+                    return null;
+                  }
+                }) : null
+              }
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
     </View>
     );
   }
@@ -46,8 +48,12 @@ class PhotoList extends Component{
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+  contents: {
     flex: 1,
-    marginTop: 80,
+    paddingTop: 65,
+    paddingVertical: 51
   },
   photoContainer: {
     flex: 1,

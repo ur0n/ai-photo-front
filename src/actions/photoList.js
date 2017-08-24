@@ -3,10 +3,10 @@ import { FETCH_PHOTO_LIST, FETCH_PHOTO_LIST_SUCCESS, FETCH_PHOTO_LIST_FAILURE } 
 export function fetchPhotosFromAPI(){
   return dispatch => {
     dispatch(fetchPhotoList());
-    fetch("http://aiph.work/list?page=1&lim=100")
+    fetch("http://aiph.work/list?page=1&lim=130")
     .then(res => res.json())
     .then(resJson => {
-      console.log(resJson)
+      // console.log(resJson);
       dispatch(fetchPhotoListSuccess(resJson));
     }).catch(err => {
       console.log(err);

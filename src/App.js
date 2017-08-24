@@ -45,7 +45,6 @@ const App = () => (
             onRight={() => Actions.postImage()}
             />
           <Scene key="camera" component={Camera} title="Camera" icon={TabIcon} />
-          <Scene key="othre" component={Season} title="Season" icon={TabIcon} />
         </Scene>
         <Scene key="postImage" component={PostPhoto} title="PostImage" icon={TabIcon} />
       </Scene>

@@ -22,11 +22,13 @@ export default function cameraReducer(state = initialState, action){
       ...state,
       photo: action.data
     };
+    break;
     case TAKE_PICTURE_FAILURE:
     return{
       ...state,
       error: true
     };
+    break;
     case SWITCH_TYPE:
     return {
       ...state,
@@ -35,6 +37,7 @@ export default function cameraReducer(state = initialState, action){
         type: action.cameraType
       }
     };
+    break;
     case SWITCH_FLASH:
     return {
       ...state,
@@ -43,6 +46,7 @@ export default function cameraReducer(state = initialState, action){
         flashMode: action.flashMode
       }
     }
+    break;
     default:
     return state;
   }
