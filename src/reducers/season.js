@@ -1,4 +1,10 @@
-import { FETCH_SEASON_PHOTO_LIST, FETCH_SEASON_PHOTO_LIST_SUCCESS, FETCH_SEASON_PHOTO_LIST_FAILURE, CHANGE_SEASON } from '../constants/season';
+import {
+  FETCH_SEASON_PHOTO_LIST,
+  FETCH_SEASON_PHOTO_LIST_SUCCESS,
+  FETCH_SEASON_PHOTO_LIST_FAILURE,
+  CHANGE_SEASON,
+  CHANGE_PAGE
+} from '../constants/season';
 
 const initialState = {
   seasonPhotoList: {
@@ -26,7 +32,7 @@ export default function seasonReducer(state = initialState, action){
       isFetched: true,
       seasonPhotoList: {
         ...state.seasonPhotoList,
-        [action.season]: action.data
+        [state.thisSeason]: action.data
       }
     };
     break;
@@ -42,6 +48,7 @@ export default function seasonReducer(state = initialState, action){
       ...state,
       thisSeason: action.season
     }
+    break;
     default:
     return state;
   }

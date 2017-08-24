@@ -1,15 +1,20 @@
-import { FETCH_SEASON_PHOTO_LIST, FETCH_SEASON_PHOTO_LIST_SUCCESS, FETCH_SEASON_PHOTO_LIST_FAILURE, CHANGE_SEASON } from '../constants/season';
+import {
+  FETCH_SEASON_PHOTO_LIST,
+  FETCH_SEASON_PHOTO_LIST_SUCCESS,
+  FETCH_SEASON_PHOTO_LIST_FAILURE,
+  CHANGE_SEASON,
+  CHANGE_PAGE
+ } from '../constants/season';
 
-export function fetchSeasonListFromAPI(season){
+//TODO pull-up-down to refresh
+export function fetchSeasonListFromAPI(season, page){
   return dispatch => {
-    console.log("--------------------------------------");
     dispatch(fetchSeasonPhotoList());
     fetch(`http://aiph.work/list/${season}?page=1&lim=30`)
     .then(res => res.json())
     .then(resJson => {
-      // console.log(resJson);
       dispatch(changeSeason(season));
-      dispatch(fetchSeasonPhotoListSuccess(resJson, season));
+      dispatch(fetchSeasonPhotoListSuccess(resJson));
     }).catch(err => {
       console.log(err);
       dispatch(fetchSeasonPhotoListFailure(err));
@@ -26,15 +31,14 @@ export function changeSeason(season){
 
 export function fetchSeasonPhotoList(){
   return {
-    type: FETCH_SEASON_PHOTO_LIST
+    type: FETCH_SEASON_PHOTO_LIST,
   };
 }
 
-export function fetchSeasonPhotoListSuccess(data, season){
+export function fetchSeasonPhotoListSuccess(data){
   return {
     type: FETCH_SEASON_PHOTO_LIST_SUCCESS,
-    data,
-    season
+    data
   };
 }
 

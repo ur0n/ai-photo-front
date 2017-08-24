@@ -6,11 +6,13 @@ import {
   Image,
   StyleSheet,
   Dimensions,
+  RefreshControl,
+  FlatList,
   ScrollView
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { fetchSeasonListFromAPI } from '../actions/season';
+import { fetchSeasonListFromAPI, onEndReached} from '../actions/season';
 
 class Season extends Component {
   constructor(props){
@@ -18,7 +20,7 @@ class Season extends Component {
   }
 
   componentDidMount(){
-    this.props.getSeasonPhotoList("Spring");
+    this.props.getSeasonPhotoList(this.props.season.thisSeason);
   }
 
   render(){
@@ -41,24 +43,12 @@ class Season extends Component {
         }
         </View>
         <View style={styles.contents}>
-          <ScrollView>
-            <View style={styles.photoGrid}>
-              {
-                isFetched? seasonPhotoList[thisSeason].Photos.map((photo, i) => {
-                  const ps = photo.image.String;
-                  if(ps.substring(ps.length - 3, ps.length) === "jpg"){
-                    return (
-                      <View key={i}>
-                        <Image style={styles.photo} source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + photo.image.String}} />
-                      </View>
-                    );
-                  }else{
-                    return null;
-                  }
-                }) : null
-              }
-            </View>
-          </ScrollView>
+          <FlatList
+            contentContainerStyle={styles.photoGrid}
+            data={seasonPhotoList[thisSeason].Photos}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+          />
         </View>
       </View>
     );
@@ -89,7 +79,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   photoGrid: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
@@ -101,6 +90,21 @@ const styles = StyleSheet.create({
     height: getPhotoSize(),
   }
 });
+
+function renderItem({item}){
+
+  if(item === undefined)return null;
+
+  const ps = item.image.String;
+  if(ps.substring(ps.length - 3, ps.length) !== "jpg") return null;
+  return (
+    <Image style={styles.photo} source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + item.image.String}} />
+  );
+}
+
+function keyExtractor(item, index){
+  return index;
+}
 
 function createSeasonView(color){
   return {
