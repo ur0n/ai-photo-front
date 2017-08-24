@@ -62,8 +62,6 @@ const styles = StyleSheet.create({
   },
   selected: {
     flex: 2,
-    borderColor: 'black',
-    borderWidth: 2
   },
   selectedPhoto: {
     flex: 1,
@@ -73,7 +71,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
   },
   photo: {
     flex: 1,

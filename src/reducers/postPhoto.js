@@ -17,11 +17,13 @@ export default function postPhotoReducer(state = initialState, action){
       ...state,
       response: action.data
     }
+    break;
     case POST_PHOTO_FAILURE:
     return {
       ...state,
       error: action.err
     }
+    break;
     default:
     return state;
   }

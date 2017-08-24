@@ -16,6 +16,7 @@ export default function cameraRollReducer(state = initialState, action){
       photos: [],
       isFetched: false
     };
+    break;
     case GET_PHOTOS_SUCCESS:
     return {
       ...state,
@@ -23,17 +24,20 @@ export default function cameraRollReducer(state = initialState, action){
       selectPhoto: action.data[0],
       isFetched: true
     };
+    break;
     case GET_PHOTOS_FAILURE:
     return{
       ...state,
       error: true,
       isFetched: false
     };
+    break;
     case SELECT_PHOTO:
     return {
       ...state,
       selectPhoto: action.data
     }
+    break;
     default:
     return state;
   }

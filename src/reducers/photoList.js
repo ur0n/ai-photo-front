@@ -20,12 +20,14 @@ export default function photoListReducer(state = initialState, action){
       isFetched: true,
       photoList: action.data
     };
+    break;
     case FETCH_PHOTO_LIST_FAILURE:
     return {
       ...state,
       isFetched: false,
       error: true
     }
+    break;
     default:
     return state;
   }
