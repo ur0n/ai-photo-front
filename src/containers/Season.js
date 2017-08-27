@@ -12,7 +12,9 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { fetchSeasonListFromAPI, onEndReached} from '../actions/season';
+import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import { fetchSeasonListFromAPI, onEndReached } from '../actions/season';
+import SeasonTabBar from '../components/SeasonTabBar';
 
 class Season extends Component {
   constructor(props){
@@ -29,27 +31,26 @@ class Season extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.seasonSelect}>
+        <ScrollableTabView
+          style={{marginTop: 64, backgroundColor: 'rgba(240, 240, 240, 0)'}}
+          renderTabBar={() => <SeasonTabBar />}
+          onChangeTab={({i}) => this.props.getSeasonPhotoList(i)}
+          >
           {
             season.map((s, i) => {
               return (
-                <TouchableHighlight style={styles[s]} key={i} onPress={() => this.props.getSeasonPhotoList(s)}>
-                  <View key={i}>
-                    <Text style={{color: 'white'}}>{s}</Text>
-                  </View>
-                </TouchableHighlight>
+                <View style={styles.contents} tabLabel={s} key={i}>
+                  <FlatList
+                    contentContainerStyle={styles.photoGrid}
+                    data={seasonPhotoList[thisSeason].Photos}
+                    keyExtractor={keyExtractor}
+                    renderItem={renderItem}
+                    />
+                </View>
               )
-          })
-        }
-        </View>
-        <View style={styles.contents}>
-          <FlatList
-            contentContainerStyle={styles.photoGrid}
-            data={seasonPhotoList[thisSeason].Photos}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem}
-          />
-        </View>
+            })
+          }
+        </ScrollableTabView>
       </View>
     );
   }
@@ -58,20 +59,6 @@ class Season extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  seasonSelect: {
-    flex: 1,
-    flexDirection: 'row',
-    paddingTop: 70,
-    marginBottom: 10
-  },
-  Spring: createSeasonView('#5ACB98'),
-  Summer: createSeasonView('#FC675E'),
-  Autumn: createSeasonView('#FFCC35'),
-  Winter: createSeasonView('#4CA4DD'),
-  contents: {
-    flex: 9,
-    paddingBottom: 51,
   },
   photoContainer: {
     flex: 1,
@@ -104,16 +91,6 @@ function renderItem({item}){
 
 function keyExtractor(item, index){
   return index;
-}
-
-function createSeasonView(color){
-  return {
-    flex: 1,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: "center",
-    backgroundColor: color,
-  }
 }
 
 function getPhotoSize(){
