@@ -12,32 +12,38 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
-import { fetchSeasonListFromAPI, onEndReached } from '../actions/season';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { fetchSeasonListFromAPI, changeTab } from '../actions/season';
 import SeasonTabBar from '../components/SeasonTabBar';
 
 class Season extends Component {
   constructor(props){
     super(props);
+    this.season = ['Spring', 'Summer', 'Autumn', 'Winter'];
   }
 
   componentDidMount(){
     this.props.getSeasonPhotoList(this.props.season.thisSeason);
   }
 
+  onChangeTab({i}){
+    const { seasonPhotoList } = this.props.season;
+    const thisSeason = this.season[i];
+    seasonPhotoList[thisSeason].isFetched? this.props.changeTab(thisSeason) : this.props.getSeasonPhotoList(thisSeason);
+  }
+
   render(){
-    const { isFetched, seasonPhotoList, thisSeason } = this.props.season;
-    const season = ['Spring', 'Summer', 'Autumn', 'Winter'];
+    const { seasonPhotoList, thisSeason } = this.props.season;
 
     return (
       <View style={styles.container}>
         <ScrollableTabView
-          style={{marginTop: 64, backgroundColor: 'rgba(240, 240, 240, 0)'}}
+          style={{marginTop: 64}}
           renderTabBar={() => <SeasonTabBar />}
-          onChangeTab={({i}) => this.props.getSeasonPhotoList(i)}
+          onChangeTab={this.onChangeTab.bind(this)}
           >
           {
-            season.map((s, i) => {
+            this.season.map((s, i) => {
               return (
                 <View style={styles.contents} tabLabel={s} key={i}>
                   <FlatList
@@ -45,6 +51,8 @@ class Season extends Component {
                     data={seasonPhotoList[thisSeason].Photos}
                     keyExtractor={keyExtractor}
                     renderItem={renderItem}
+                    initialListSize={25}
+                    pageSize={10}
                     />
                 </View>
               )
@@ -52,7 +60,7 @@ class Season extends Component {
           }
         </ScrollableTabView>
       </View>
-    );
+    )
   }
 }
 
@@ -105,7 +113,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    getSeasonPhotoList: season => dispatch(fetchSeasonListFromAPI(season))
+    getSeasonPhotoList: season => dispatch(fetchSeasonListFromAPI(season)),
+    changeTab: page => dispatch(changeTab(page))
   };
 }
 

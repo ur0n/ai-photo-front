@@ -9,13 +9,10 @@ import {
 //TODO pull-up-down to refresh
 export function fetchSeasonListFromAPI(season){
   return dispatch => {
-    const thisSeason = dispatchTabPage(season);
-
-    dispatch(fetchSeasonPhotoList());
-    fetch(`http://aiph.work/list/${thisSeason}?page=1&lim=30`)
+    fetch(`http://aiph.work/list/${season}?page=1&lim=30`)
     .then(res => res.json())
     .then(resJson => {
-      dispatch(changeSeason(thisSeason));
+      dispatch(changeSeason(season));
       dispatch(fetchSeasonPhotoListSuccess(resJson));
     }).catch(err => {
       console.log(err);
@@ -24,9 +21,10 @@ export function fetchSeasonListFromAPI(season){
   };
 }
 
-function dispatchTabPage(season){
-  const seasonFromPage = ["Spring", "Summer", "Autumn", "Winter"][season];
-  return seasonFromPage === undefined? season : seasonFromPage;
+export function changeTab(season){
+  return dispatch => {
+    dispatch(changeSeason(season));
+  }
 }
 
 export function changeSeason(season){
