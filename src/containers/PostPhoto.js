@@ -32,18 +32,15 @@ class PostPhoto extends Component {
 
     return(
       <View style={styles.container}>
-        {isCameraRoll &&
-          <View>
+        <View style={styles.contents}>
+          {isCameraRoll &&
             <Image key={"first"} style={styles.bigPhoto} source={{uri: selectPhoto.uri}} />
-          </View>
-        }
+          }
 
-        {!isCameraRoll && photo !== null &&
-          <View>
+          {!isCameraRoll && photo !== null &&
             <Image key={"first"} style={styles.bigPhoto} source={{uri: photo.uri}} />
-          </View>
-        }
-
+          }
+        </View>
         <TouchableHighlight style={styles.button} onPress={this.postPhoto.bind(this)}>
           <Text style={styles.buttonText}>Post Photo!</Text>
         </TouchableHighlight>
@@ -53,28 +50,27 @@ class PostPhoto extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    marginTop: 100,
-    paddingLeft: 10,
-    paddingRight: 10
+    flex: 1
+  },
+  contents: {
+    flex: 5,
+    alignItems: 'stretch',
+    paddingTop: 65
   },
   bigPhoto: {
-    width: 353,
-    height: 400,
-    margin: 1
+    flex: 1,
+    margin: 10
   },
   button: {
-    height: 60,
+    flex: 1,
+    margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#0b7eff'
   },
   buttonText: {
     color: 'white'
-  },
-  linkText: {
-    fontSize: 32,
-    color: 'rgb(95, 177, 237)',
-  },
+  }
 });
 
 function mapStateToProps(state){
