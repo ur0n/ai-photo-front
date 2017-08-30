@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Camera from 'react-native-camera';
+import { Actions } from 'react-native-router-flux';
 
 import { takePicture, switchCameraType, switchFlashMode } from '../actions/camera';
 
@@ -38,6 +39,11 @@ class Camera1 extends Component {
     } else {
       return require('../../assets/ic_flash_off_white.png');
     }
+  }
+
+  takePicture(){
+    this.props.takePicture(this.camera)
+    Actions.postImage({isCameraRoll: false});
   }
 
   render() {
@@ -86,7 +92,7 @@ class Camera1 extends Component {
             &&
             <TouchableOpacity
               style={styles.captureButton}
-              onPress={() => this.props.takePicture(this.camera)}
+              onPress={this.takePicture.bind(this)}
               >
               <Image
                 source={require('../../assets/ic_photo_camera_36pt.png')}
@@ -155,6 +161,7 @@ function mapStateToProps(state) {
   };
 }
 
+//TODO reselect
 function mapDispatchToProps(dispatch) {
   return {
     takePicture: camera => dispatch(takePicture(camera)),

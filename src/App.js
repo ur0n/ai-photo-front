@@ -42,7 +42,7 @@ const App = () => (
             leftTitle="Cancel"
             onLeft={Actions.pop}
             rightTitle="Next"
-            onRight={() => Actions.postImage()}
+            onRight={() => Actions.postImage({isCameraRoll: true})}
             />
           <Scene key="camera" component={Camera} title="Camera" icon={TabIcon} />
         </Scene>
