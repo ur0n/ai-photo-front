@@ -8,38 +8,51 @@ import {
 
 const initialState = {
   seasonPhotoList: {
-    Spring: [],
-    Summer: [],
-    Autumn: [],
-    Winter: []
+    Spring: {
+      isFetched: false,
+      photos: []
+    },
+    Summer: {
+      isFetched: false,
+      photos: []
+    },
+    Autumn: {
+      isFetched: false,
+      photos: []
+    },
+    Winter: {
+      isFetched: false,
+      photos: []
+    }
   },
   thisSeason: "Spring",
-  isFetched: false,
   error: false
 }
 
 export default function seasonReducer(state = initialState, action){
   switch (action.type) {
-    case FETCH_SEASON_PHOTO_LIST:
-    return{
-      ...state,
-      isFetched: false
-    };
-    break;
     case FETCH_SEASON_PHOTO_LIST_SUCCESS:
     return {
       ...state,
-      isFetched: true,
       seasonPhotoList: {
         ...state.seasonPhotoList,
-        [state.thisSeason]: action.data
+        [state.thisSeason]: {
+          isFetched: true,
+          Photos: action.data.Photos
+        }
       }
     };
     break;
     case FETCH_SEASON_PHOTO_LIST_FAILURE:
     return {
       ...state,
-      isFetched: false,
+      seasonPhotoList: {
+        ...state.seasonPhotoList,
+        [state.thisSeason]: {
+          ...state.seasonPhotoList[state.thisSeason],
+          isFetched: false
+        }
+      },
       error: true
     };
     break;

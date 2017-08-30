@@ -12,66 +12,61 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { fetchSeasonListFromAPI, onEndReached} from '../actions/season';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { fetchSeasonListFromAPI, changeTab } from '../actions/season';
+import SeasonTabBar from '../components/SeasonTabBar';
 
 class Season extends Component {
   constructor(props){
     super(props);
+    this.season = ['Spring', 'Summer', 'Autumn', 'Winter'];
   }
 
   componentDidMount(){
     this.props.getSeasonPhotoList(this.props.season.thisSeason);
   }
 
+  onChangeTab({i}){
+    const { seasonPhotoList } = this.props.season;
+    const thisSeason = this.season[i];
+    seasonPhotoList[thisSeason].isFetched? this.props.changeTab(thisSeason) : this.props.getSeasonPhotoList(thisSeason);
+  }
+
   render(){
-    const { isFetched, seasonPhotoList, thisSeason } = this.props.season;
-    const season = ['Spring', 'Summer', 'Autumn', 'Winter'];
+    const { seasonPhotoList, thisSeason } = this.props.season;
 
     return (
       <View style={styles.container}>
-        <View style={styles.seasonSelect}>
+        <ScrollableTabView
+          style={{marginTop: 64}}
+          renderTabBar={() => <SeasonTabBar />}
+          onChangeTab={this.onChangeTab.bind(this)}
+          >
           {
-            season.map((s, i) => {
+            this.season.map((s, i) => {
               return (
-                <TouchableHighlight style={styles[s]} key={i} onPress={() => this.props.getSeasonPhotoList(s)}>
-                  <View key={i}>
-                    <Text style={{color: 'white'}}>{s}</Text>
-                  </View>
-                </TouchableHighlight>
+                <View style={styles.contents} tabLabel={s} key={i}>
+                  <FlatList
+                    contentContainerStyle={styles.photoGrid}
+                    data={seasonPhotoList[thisSeason].Photos}
+                    keyExtractor={keyExtractor}
+                    renderItem={renderItem}
+                    initialListSize={25}
+                    pageSize={10}
+                    />
+                </View>
               )
-          })
-        }
-        </View>
-        <View style={styles.contents}>
-          <FlatList
-            contentContainerStyle={styles.photoGrid}
-            data={seasonPhotoList[thisSeason].Photos}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem}
-          />
-        </View>
+            })
+          }
+        </ScrollableTabView>
       </View>
-    );
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  seasonSelect: {
-    flex: 1,
-    flexDirection: 'row',
-    paddingTop: 70,
-    marginBottom: 10
-  },
-  Spring: createSeasonView('#5ACB98'),
-  Summer: createSeasonView('#FC675E'),
-  Autumn: createSeasonView('#FFCC35'),
-  Winter: createSeasonView('#4CA4DD'),
-  contents: {
-    flex: 9,
-    paddingBottom: 51,
   },
   photoContainer: {
     flex: 1,
@@ -106,16 +101,6 @@ function keyExtractor(item, index){
   return index;
 }
 
-function createSeasonView(color){
-  return {
-    flex: 1,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: "center",
-    backgroundColor: color,
-  }
-}
-
 function getPhotoSize(){
   return Dimensions.get('window').width / 4 - 2;
 }
@@ -128,7 +113,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    getSeasonPhotoList: season => dispatch(fetchSeasonListFromAPI(season))
+    getSeasonPhotoList: season => dispatch(fetchSeasonListFromAPI(season)),
+    changeTab: page => dispatch(changeTab(page))
   };
 }
 

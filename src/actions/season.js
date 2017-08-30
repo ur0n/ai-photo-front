@@ -7,9 +7,8 @@ import {
  } from '../constants/season';
 
 //TODO pull-up-down to refresh
-export function fetchSeasonListFromAPI(season, page){
+export function fetchSeasonListFromAPI(season){
   return dispatch => {
-    dispatch(fetchSeasonPhotoList());
     fetch(`http://aiph.work/list/${season}?page=1&lim=30`)
     .then(res => res.json())
     .then(resJson => {
@@ -20,6 +19,12 @@ export function fetchSeasonListFromAPI(season, page){
       dispatch(fetchSeasonPhotoListFailure(err));
     })
   };
+}
+
+export function changeTab(season){
+  return dispatch => {
+    dispatch(changeSeason(season));
+  }
 }
 
 export function changeSeason(season){
