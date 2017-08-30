@@ -5,6 +5,7 @@ export function takePicture(camera){
   return dispatch => {
     camera.capture()
     .then(data => {
+      console.log(data);
       const file = {
         uri: data.path,
         name: "image.jpg",

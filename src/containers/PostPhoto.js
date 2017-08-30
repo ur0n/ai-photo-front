@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
     View,
     Image,
@@ -6,24 +6,51 @@ import {
     TouchableHighlight,
     StyleSheet,
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { storePhotoToServer } from '../actions/postPhoto';
 
 
-const PostPhoto = props => {
-  const selectPhoto = props.selectPhoto;
-  return(
-    <View style={styles.container}>
-      <View>
-        <Image key={"first"} style={styles.bigPhoto} source={{uri: selectPhoto.uri}} />
-      </View>
-      <TouchableHighlight style={styles.button} onPress={() => props.postPhoto(selectPhoto)}>
-        <Text style={styles.buttonText}>Post Photo!</Text>
-      </TouchableHighlight>
-    </View>
-  );
-}
+class PostPhoto extends Component {
+  constructor(props){
+    super(props);
+  }
 
+  postPhoto(){
+    const selectPhoto = this.props.isCameraRoll? this.props.cameraRoll.selectPhoto: this.props.camera.photo;
+    this.props.postPhoto(selectPhoto);
+
+    Actions.pop();
+  }
+
+  render(){
+    const { photo } = this.props.camera;
+    console.log(photo);
+    const { selectPhoto } = this.props.cameraRoll;
+    //navigater params
+    const isCameraRoll = this.props.isCameraRoll;
+
+    return(
+      <View style={styles.container}>
+        {isCameraRoll &&
+          <View>
+            <Image key={"first"} style={styles.bigPhoto} source={{uri: selectPhoto.uri}} />
+          </View>
+        }
+
+        {!isCameraRoll && photo !== null &&
+          <View>
+            <Image key={"first"} style={styles.bigPhoto} source={{uri: photo.uri}} />
+          </View>
+        }
+
+        <TouchableHighlight style={styles.button} onPress={this.postPhoto.bind(this)}>
+          <Text style={styles.buttonText}>Post Photo!</Text>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+}
 const styles = StyleSheet.create({
   container: {
     marginTop: 100,
@@ -52,7 +79,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
   return {
-    selectPhoto: state.cameraRoll.selectPhoto
+    cameraRoll: state.cameraRoll,
+    camera: state.camera
   }
 }
 
