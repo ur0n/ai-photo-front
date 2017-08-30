@@ -17,6 +17,7 @@ import { fetchSeasonListFromAPI, changeTab } from '../actions/season';
 import SeasonTabBar from '../components/SeasonTabBar';
 
 class Season extends Component {
+  static dimensions = { width: getPhotoSize(), height: getPhotoSize() };
   constructor(props){
     super(props);
     this.season = ['Spring', 'Summer', 'Autumn', 'Winter'];
@@ -47,8 +48,8 @@ class Season extends Component {
               return (
                 <View style={styles.contents} tabLabel={s} key={i}>
                   <FlatList
-                    contentContainerStyle={styles.photoGrid}
                     data={seasonPhotoList[thisSeason].Photos}
+                    numColumns={4}
                     keyExtractor={keyExtractor}
                     renderItem={renderItem}
                     initialListSize={25}
@@ -73,16 +74,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: "center"
   },
-  photoGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
   photo: {
-    flex: 1,
     margin: 1,
     borderRadius: 5,
-    width: getPhotoSize(),
-    height: getPhotoSize(),
+    backgroundColor: '#aff',
+    width: Season.dimensions.width,
+    height: Season.dimensions.height,
   }
 });
 
