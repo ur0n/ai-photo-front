@@ -9,7 +9,7 @@ export function storePhotoToServer(photo){
       body: form,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data;'
+        'Content-Type': 'multipart/form-data'
       }
     }).then(res => {
       console.log(res);
@@ -44,7 +44,7 @@ export function postPhotoFailure(err){
 function createForm(photo){
   const photoForm = {
     uri: photo.uri,
-    type: 'image/jpg',
+    type: 'image/jpeg',
     name: 'test.jpg'
   }
 
