@@ -48,12 +48,12 @@ class PhotoList extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: 65,
+    marginBottom: 50
   },
   contents: {
-    flex: 1,
-    paddingTop: 65,
-    paddingVertical: 51
+    flex: 1
   },
   photoContainer: {
     flex: 1,

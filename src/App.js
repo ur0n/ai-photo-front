@@ -19,7 +19,6 @@ import TabIcon from './components/TabIcon';
 
 const styles = StyleSheet.create({
     tabBar: {
-        flex: 1,
         backgroundColor: 'rgb(50, 207, 202)',
     }
 });
