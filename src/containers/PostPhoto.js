@@ -9,6 +9,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { storePhotoToServer } from '../actions/postPhoto';
+import { colors } from '../config';
 
 
 class PostPhoto extends Component {
@@ -66,9 +67,12 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0b7eff'
+    borderRadius: 30,
+    backgroundColor: colors.mintGreen
   },
   buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
     color: 'white'
   }
 });

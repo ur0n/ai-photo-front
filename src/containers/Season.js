@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { fetchSeasonListFromAPI, changeTab } from '../actions/season';
 import SeasonTabBar from '../components/SeasonTabBar';
+import { colors } from '../config';
 
 class Season extends Component {
   static dimensions = { width: getPhotoSize(), height: getPhotoSize() };
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   photo: {
     margin: 1,
     borderRadius: 5,
-    backgroundColor: '#aff',
+    backgroundColor: colors.mintGreen,
     width: Season.dimensions.width,
     height: Season.dimensions.height,
   }
