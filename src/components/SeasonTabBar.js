@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Animated
  } from 'react-native';
+ import { colors } from '../config';
 
 class SeasonTabBar extends React.Component {
   renderTabOption(name, page) {
@@ -16,7 +17,7 @@ class SeasonTabBar extends React.Component {
   renderTab(name, page, isTabActive, onPressHandler) {
     const { activeTextColor, inactiveTextColor, textStyle } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
-    const fontWeight = isTabActive ? 'bold' : 'normal';
+    const fontWeight = isTabActive ? '100' : 'normal';
 
     return (
       <TouchableOpacity
@@ -92,19 +93,19 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderRightWidth: 0
   },
-  Spring: createSeasonView('#5ACB98'),
-  Summer: createSeasonView('#FC675E'),
-  Autumn: createSeasonView('#FFCC35'),
-  Winter: createSeasonView('#4CA4DD')
+  Spring: seasonView(),
+  Summer: seasonView(),
+  Autumn: seasonView(),
+  Winter: seasonView()
 });
 
-function createSeasonView(color){
+function seasonView(){
   return {
     flex: 1,
     height: 50,
     alignItems: 'center',
     justifyContent: "center",
-    backgroundColor: color
+    backgroundColor: 'white'
   }
 }
 
@@ -122,8 +123,8 @@ SeasonTabBar.propsTypes = {
 };
 
 SeasonTabBar.defaultProps = {
-  activeTextColor: 'black',
-  inactiveTextColor: 'white',
+  activeTextColor: colors.mintGreen,
+  inactiveTextColor: colors.lightGray,
   backgroundColor: null
 }
 

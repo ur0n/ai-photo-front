@@ -10,6 +10,7 @@ import {
 
 import { connect } from 'react-redux';
 import { fetchPhotosFromAPI } from '../actions/photoList';
+import { colors } from '../config';
 
 class PhotoList extends Component{
   constructor(props){
@@ -48,12 +49,12 @@ class PhotoList extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: 65,
+    marginBottom: 50
   },
   contents: {
-    flex: 1,
-    paddingTop: 65,
-    paddingVertical: 51
+    flex: 1
   },
   photoContainer: {
     flex: 1,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     width: 300,
     margin: 1,
     borderRadius: 10,
-    backgroundColor: '#aff',
+    backgroundColor: colors.mintGreen,
   }
 });
 
