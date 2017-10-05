@@ -1,6 +1,7 @@
-import { FETCH_PHOTO_LIST, FETCH_PHOTO_LIST_SUCCESS, FETCH_PHOTO_LIST_FAILURE } from '../constants/photoList';
+import { FETCH_PHOTO_LIST, FETCH_PHOTO_LIST_SUCCESS, FETCH_PHOTO_LIST_FAILURE, SET_PAGE } from '../constants/photoList';
 
 const initialState = {
+  page: 1,
   photoList: [],
   isFetched: false,
   error: false
@@ -14,11 +15,21 @@ export default function photoListReducer(state = initialState, action){
       isFetched: false
     };
     break;
+    case SET_PAGE:
+    return {
+      ...state,
+      page: action.page
+    }
+    break;
     case FETCH_PHOTO_LIST_SUCCESS:
     return {
       ...state,
       isFetched: true,
-      photoList: action.data
+      // photoList: action.data
+      photoList: [
+        ...state.photoList,
+        ...action.data.Photos
+      ]
     };
     break;
     case FETCH_PHOTO_LIST_FAILURE:
