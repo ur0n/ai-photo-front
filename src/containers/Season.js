@@ -34,6 +34,23 @@ class Season extends Component {
     seasonPhotoList[thisSeason].isFetched? this.props.changeTab(thisSeason) : this.props.getSeasonPhotoList(thisSeason);
   }
 
+  keyExtractor(item, index){
+    return index;
+  }
+
+  renderItem({item}){
+    if(item === undefined)return null;
+    const ps = item.image.String;
+    if(ps.substring(ps.length - 3, ps.length) !== "jpg") return null;
+
+    return (
+      <Image
+        style={styles.photo}
+        source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + item.image.String}}
+        />
+    );
+  }
+
   render(){
     const { seasonPhotoList, thisSeason } = this.props.season;
 
@@ -51,8 +68,8 @@ class Season extends Component {
                   <FlatList
                     data={seasonPhotoList[thisSeason].Photos}
                     numColumns={4}
-                    keyExtractor={keyExtractor}
-                    renderItem={renderItem}
+                    keyExtractor={this.keyExtractor}
+                    renderItem={this.renderItem}
                     initialListSize={25}
                     pageSize={10}
                     />
@@ -84,21 +101,6 @@ const styles = StyleSheet.create({
     height: Season.dimensions.height,
   }
 });
-
-function renderItem({item}){
-
-  if(item === undefined)return null;
-
-  const ps = item.image.String;
-  if(ps.substring(ps.length - 3, ps.length) !== "jpg") return null;
-  return (
-    <Image style={styles.photo} source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + item.image.String}} />
-  );
-}
-
-function keyExtractor(item, index){
-  return index;
-}
 
 function getPhotoSize(){
   return Dimensions.get('window').width / 4 - 2;

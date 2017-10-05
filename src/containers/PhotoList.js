@@ -5,6 +5,8 @@ import {
   Text,
   Image,
   StyleSheet,
+  FlatList,
+  RefreshControl,
   ScrollView
 } from 'react-native';
 
@@ -15,32 +17,76 @@ import { colors } from '../config';
 class PhotoList extends Component{
   constructor(props){
     super(props);
+
+    this.state = {
+      refreshing: false,
+    }
   }
 
   componentDidMount(){
-    this.props.getPhotoList();
+    this.props.getPhotoList(this.props.photoList.page);
+  }
+
+  keyExtractor(item, index){
+    return index;
+  }
+
+  renderItem({item}){
+    if(item === undefined)return null;
+    console.log(item);
+    const ps = item.image.String;
+    if(ps.substring(ps.length -3, ps.length) === "jpg"){
+      return (
+        <Image
+          style={styles.photo}
+          source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + item.image.String}}
+          />
+      )
+    }
+  }
+
+  handleLoadMore(){
+    const { page } = this.props.photoList;
+    this.props.getPhotoList(page + 1);
+    this.onEndReachedCalledDuringMomentum = true;
+  }
+
+  _handleRefresh(){
+    const page = 1;
+    console.log(this.props);
+    this.setState({ refreshing: true });
+    
+    this.props.getPhotoList(page).then(res => {
+      this.setState({ refreshing: false })
+    });
   }
 
   render(){
     const { isFetched, photoList } = this.props.photoList;
-
     return (
       <View style={styles.container}>
         <View style={styles.contents}>
-          <ScrollView>
-            <View style={styles.photoContainer}>
-              {
-                isFetched? photoList.Photos.map((photo, i) => {
-                  const ps = photo.image.String;
-                  if(ps.substring(ps.length - 3, ps.length) === "jpg"){
-                    return <Image key={i} style={styles.photo} source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + photo.image.String}} />
-                  }else{
-                    return null;
-                  }
-                }) : null
+          <View style={styles.photoContainer}>
+            <FlatList
+              style={styles.list}
+              data={photoList}
+              numColumns={1}
+              keyExtractor={this.keyExtractor}
+              renderItem={this.renderItem}
+              initialListSize={10}
+              pageSize={10}
+              onEndReached={this.handleLoadMore.bind(this)}
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
+              onEndReachedThreshold={0.5}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._handleRefresh.bind(this)}
+                  />
               }
-            </View>
-          </ScrollView>
+              />
+          </View>
         </View>
     </View>
     );
@@ -67,6 +113,10 @@ const styles = StyleSheet.create({
     margin: 1,
     borderRadius: 10,
     backgroundColor: colors.mintGreen,
+  },
+  list: {
+    paddingRight: 40,
+    paddingLeft: 40
   }
 });
 
@@ -78,7 +128,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    getPhotoList: () => dispatch(fetchPhotosFromAPI())
+    getPhotoList: page => dispatch(fetchPhotosFromAPI(page))
   };
 }
 
