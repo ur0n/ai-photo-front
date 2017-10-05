@@ -35,16 +35,18 @@ class PhotoList extends Component{
     if(item === undefined)return null;
     console.log(item);
     const ps = item.image.String;
-    if(ps.substring(ps.length -3, ps.length) === "jpg"){
+    const ext = ps.substring(ps.length -3, ps.length)
+    if(ext === "jpg" || ext === "png"){
       return (
         <Image
           style={styles.photo}
-          source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + item.image.String}}
+          source={{uri: "https://s3-ap-northeast-1.amazonaws.com/shop-bot-view/" + item.image.String}}
           />
       )
     }
   }
 
+          // source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + item.image.String}}
   handleLoadMore(){
     const { page } = this.props.photoList;
     this.props.getPhotoList(page + 1);
@@ -53,9 +55,8 @@ class PhotoList extends Component{
 
   _handleRefresh(){
     const page = 1;
-    console.log(this.props);
     this.setState({ refreshing: true });
-    
+
     this.props.getPhotoList(page).then(res => {
       this.setState({ refreshing: false })
     });

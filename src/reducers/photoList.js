@@ -27,8 +27,8 @@ export default function photoListReducer(state = initialState, action){
       isFetched: true,
       // photoList: action.data
       photoList: [
-        ...state.photoList,
-        ...action.data.Photos
+        ...action.data.Photos,
+        ...state.photoList
       ]
     };
     break;
