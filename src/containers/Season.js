@@ -46,7 +46,7 @@ class Season extends Component {
     return (
       <Image
         style={styles.photo}
-        source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + item.image.String}}
+        source={{uri: "https://s3-ap-northeast-1.amazonaws.com/shop-bot-view/" + item.image.String}}
         />
     );
   }
