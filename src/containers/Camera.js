@@ -41,9 +41,11 @@ class Camera1 extends Component {
     }
   }
 
+// 写真を取った後に画面遷移
   takePicture(){
-    this.props.takePicture(this.camera)
-    Actions.postImage({isCameraRoll: false});
+    this.props.takePicture(this.camera).then(res => {
+      Actions.postImage({isCameraRoll: false});
+    })
   }
 
   render() {

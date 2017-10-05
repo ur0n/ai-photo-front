@@ -3,7 +3,7 @@ import Camera from 'react-native-camera';
 
 export function takePicture(camera){
   return dispatch => {
-    camera.capture()
+    return camera.capture()
     .then(data => {
       console.log(data);
       const file = {
