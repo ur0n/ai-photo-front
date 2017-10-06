@@ -9,14 +9,9 @@ const initialState = {
 
 function dedupe(array, item, mode) {
   //重複データが入らないようにするための対応
-  const res = item.filter(element1 =>
+  return item.filter(element1 =>
     array.filter(element2 =>
       element1.id === element2.id).length === 0)
-
-  console.log("---------------------------------------");
-  console.log(res.length);
-  console.log("---------------------------------------");
-  return res;
 }
 
 export default function photoListReducer(state = initialState, action){
