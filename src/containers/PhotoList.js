@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import { fetchPhotosFromAPI } from '../actions/photoList';
+import { getPhotoList, updatePhotoList } from '../actions/photoList';
 import { colors } from '../config';
 
 class PhotoList extends Component{
@@ -33,7 +33,6 @@ class PhotoList extends Component{
 
   renderItem({item}){
     if(item === undefined)return null;
-    console.log(item);
     const ps = item.image.String;
     const ext = ps.substring(ps.length -3, ps.length)
     if(ext === "jpg" || ext === "png"){
@@ -57,7 +56,7 @@ class PhotoList extends Component{
     const page = 1;
     this.setState({ refreshing: true });
 
-    this.props.getPhotoList(page).then(res => {
+    this.props.updatePhotoList().then(res => {
       this.setState({ refreshing: false })
     });
   }
@@ -129,7 +128,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    getPhotoList: page => dispatch(fetchPhotosFromAPI(page))
+    getPhotoList: page => dispatch(getPhotoList(page)),
+    updatePhotoList: () => dispatch(updatePhotoList())
   };
 }
 
