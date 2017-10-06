@@ -1,18 +1,34 @@
-import { FETCH_PHOTO_LIST, FETCH_PHOTO_LIST_SUCCESS, FETCH_PHOTO_LIST_FAILURE, SET_PAGE } from '../constants/photoList';
+import { FETCH_PHOTO_LIST, FETCH_PHOTO_LIST_SUCCESS, FETCH_PHOTO_LIST_FAILURE, UPDATE_PHOTO_LIST_SUCCESS, SET_PAGE } from '../constants/photoList';
 
-export function fetchPhotosFromAPI(page){
+function fetchPhotosFromAPI(page, fn){
+  return fetch(`http://aiph.work/list?page=${page}&lim=20`)
+  .then(res => res.json())
+  .then(resJson => {
+    fn(resJson);
+  })
+}
+
+export function getPhotoList(page){
   return dispatch => {
     dispatch(fetchPhotoList());
-    dispatch(setPage(page));
-    return fetch(`http://aiph.work/list?page=${page}&lim=20`)
-    .then(res => res.json())
-    .then(resJson => {
+    return fetchPhotosFromAPI(page, resJson => {
+      dispatch(setPage(page));
       dispatch(fetchPhotoListSuccess(resJson));
     }).catch(err => {
-      console.log(err);
       dispatch(fetchpPhotoListFailure(err));
     })
   };
+}
+
+export function updatePhotoList(){
+  return dispatch => {
+    dispatch(fetchPhotoList());
+    return fetchPhotosFromAPI(1, resJson => {
+      dispatch(updatePhotoListSuccess(resJson));
+    }).catch(err => {
+      dispatch(fetchpPhotoListFailure(err));
+    })
+  }
 }
 
 export function fetchPhotoList(){
@@ -33,6 +49,13 @@ export function fetchPhotoListSuccess(data){
     type: FETCH_PHOTO_LIST_SUCCESS,
     data
   }
+}
+
+export function updatePhotoListSuccess(data){
+  return {
+    type: UPDATE_PHOTO_LIST_SUCCESS,
+    data
+  };
 }
 
 export function fetchpPhotoListFailure(err){
