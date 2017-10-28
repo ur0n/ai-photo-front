@@ -11,9 +11,12 @@ export function fetchSeasonListFromAPI(season){
   return dispatch => {
     fetch(`http://aiph.work/list/${season}?page=1&lim=30`)
     .then(res => res.json())
-    .then(resJson => {
+    .then(resJson => resJson.Photos.map(item => {
+      return item.image.String;
+    }).filter(uri => uri.length !== 0))
+    .then(res => {
       dispatch(changeSeason(season));
-      dispatch(fetchSeasonPhotoListSuccess(resJson));
+      dispatch(fetchSeasonPhotoListSuccess(res));
     }).catch(err => {
       console.log(err);
       dispatch(fetchSeasonPhotoListFailure(err));
@@ -41,6 +44,7 @@ export function fetchSeasonPhotoList(){
 }
 
 export function fetchSeasonPhotoListSuccess(data){
+  console.log(data);
   return {
     type: FETCH_SEASON_PHOTO_LIST_SUCCESS,
     data
