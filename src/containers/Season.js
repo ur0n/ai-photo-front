@@ -10,6 +10,11 @@ import {
   FlatList,
   ScrollView
 } from 'react-native';
+import {
+    CachedImage,
+    ImageCacheProvider
+} from 'react-native-cached-image';
+
 
 import { connect } from 'react-redux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -44,9 +49,9 @@ class Season extends Component {
     if(ps.substring(ps.length - 3, ps.length) !== "jpg") return null;
 
     return (
-      <Image
+      <CachedImage
         style={styles.photo}
-        source={{uri: "https://s3-ap-northeast-1.amazonaws.com/shop-bot-view/" + item.image.String}}
+        source={{uri: "https://s3-ap-northeast-1.amazonaws.com/shop-bot-view/" + ps}}
         />
     );
   }
@@ -66,7 +71,7 @@ class Season extends Component {
               return (
                 <View style={styles.contents} tabLabel={s} key={i}>
                   <FlatList
-                    data={seasonPhotoList[thisSeason].Photos}
+                    data={seasonPhotoList[thisSeason]}
                     numColumns={4}
                     keyExtractor={this.keyExtractor}
                     renderItem={this.renderItem}
