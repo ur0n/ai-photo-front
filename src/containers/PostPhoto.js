@@ -26,20 +26,16 @@ class PostPhoto extends Component {
 
   render(){
     const { photo } = this.props.camera;
-    console.log(photo);
     const { selectPhoto } = this.props.cameraRoll;
     //navigater params
     const isCameraRoll = this.props.isCameraRoll;
+    const uploadPhoto = isCameraRoll? selectPhoto : photo
 
     return(
       <View style={styles.container}>
         <View style={styles.contents}>
-          {isCameraRoll &&
-            <Image key={"first"} style={styles.bigPhoto} source={{uri: selectPhoto.uri}} />
-          }
-
-          {!isCameraRoll && photo !== null &&
-            <Image key={"first"} style={styles.bigPhoto} source={{uri: photo.uri}} />
+          {uploadPhoto !== null &&
+            <Image key={"first"} style={styles.bigPhoto} source={{uri: uploadPhoto.image.uri}} />
           }
         </View>
         <TouchableHighlight style={styles.button} onPress={this.postPhoto.bind(this)}>
