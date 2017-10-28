@@ -1,13 +1,20 @@
 import { GET_PHOTOS, GET_PHOTOS_SUCCESS, GET_PHOTOS_FAILURE, SELECT_PHOTO } from '../constants/cameraRoll';
 import { CameraRoll } from 'react-native';
 
+// TODO pull up to more load
 export function getPhotosForCameraRoll(){
   return dispatch => {
     console.log("getting photos....");
     dispatch(getPhotosStart());
     CameraRoll.getPhotos({first: 100})
     .then(obj => {
-      const photos = obj.edges.map(asset => asset.node.image);
+      const photos = obj.edges.map(asset =>  {
+        return {
+          image: asset.node.image,
+          timestamp: asset.node.timestamp,
+          location: asset.node.location
+        };
+      });
       dispatch(getPhotosSuccess(photos));
     })
     .catch(err => dispatch(getPhotosFailure(err)));
