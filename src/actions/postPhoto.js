@@ -9,7 +9,7 @@ export function storePhotoToServer(photo){
       body: form,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'application/json'
       }
     }).then(res => {
       console.log(res);
@@ -41,14 +41,26 @@ export function postPhotoFailure(err){
   }
 }
 
-function createForm(photo){
-  const photoForm = {
-    uri: photo.uri,
-    type: 'image/jpeg',
-    name: 'test.jpg'
+function createForm(data){
+  const timestampUTC = getUTCTime(new Date(data.timestamp));
+  const body = {
+    title: data.title,
+    image: data.photo,
+    date: timestampUTC.toString(),
+    lat: data.location.latitude.toString(),
+    long: data.location.longitude.toString()
   }
 
-  const form = new FormData();
-  form.append("file", photoForm);
-  return form;
+  return JSON.stringify(body);
+}
+
+function getUTCTime(t){
+  return Date.UTC(
+    t.getFullYear(),
+    t.getMonth(),
+    t.getDate(),
+    t.getHours(),
+    t.getMinutes(),
+    t.getSeconds()
+  );
 }

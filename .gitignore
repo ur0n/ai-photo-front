@@ -23,7 +23,7 @@ DerivedData
 project.xcworkspace
 
 # iOS
-# 
+#
 ios/AiPhoto/Info.plist
 ios/AiPhoto.xcodeproj/project.pbxproj
 
