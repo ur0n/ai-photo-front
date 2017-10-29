@@ -38,7 +38,7 @@ export default function seasonReducer(state = initialState, action){
         ...state.seasonPhotoList,
         [state.thisSeason]: {
           isFetched: true,
-          Photos: action.data.Photos
+          Photos: action.data
         }
       }
     };

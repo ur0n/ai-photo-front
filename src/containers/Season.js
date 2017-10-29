@@ -45,20 +45,17 @@ class Season extends Component {
 
   renderItem({item}){
     if(item === undefined)return null;
-    const ps = item.image.String;
-    if(ps.substring(ps.length - 3, ps.length) !== "jpg") return null;
 
     return (
       <CachedImage
         style={styles.photo}
-        source={{uri: "https://s3-ap-northeast-1.amazonaws.com/shop-bot-view/" + ps}}
+        source={{uri: "https://s3-ap-northeast-1.amazonaws.com/shop-bot-view/" + item}}
         />
     );
   }
 
   render(){
     const { seasonPhotoList, thisSeason } = this.props.season;
-
     return (
       <View style={styles.container}>
         <ScrollableTabView
@@ -71,7 +68,7 @@ class Season extends Component {
               return (
                 <View style={styles.contents} tabLabel={s} key={i}>
                   <FlatList
-                    data={seasonPhotoList[thisSeason]}
+                    data={seasonPhotoList[thisSeason].Photos}
                     numColumns={4}
                     keyExtractor={this.keyExtractor}
                     renderItem={this.renderItem}

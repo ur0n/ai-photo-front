@@ -44,7 +44,6 @@ export function fetchSeasonPhotoList(){
 }
 
 export function fetchSeasonPhotoListSuccess(data){
-  console.log(data);
   return {
     type: FETCH_SEASON_PHOTO_LIST_SUCCESS,
     data
