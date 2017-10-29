@@ -51,8 +51,7 @@ class PhotoList extends Component{
             <CardItem>
               <Left>
                 <Body>
-                  <Text>NativeBase</Text>
-                  <Text note>GeekyAnts</Text>
+                  <Text>{item.title.String}</Text>
                 </Body>
               </Left>
             </CardItem>
