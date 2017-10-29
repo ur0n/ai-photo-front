@@ -22,7 +22,7 @@ import HomeIcon from './components/HomeIcon';
 import CameraRollIcon from './components/CameraRollIcon';
 import SeasonIcon from './components/SeasonIcon';
 import UpCameraRollIcon from './components/UpCameraRollIcon';
-
+console.disableYellowBox = true;
 const styles = StyleSheet.create({
     tabBar: {
       backgroundColor: colors.mintGreen,
