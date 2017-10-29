@@ -19,7 +19,10 @@ import FromCameraRoll from './containers/FromCameraRoll';
 import PostPhoto from './containers/PostPhoto';
 import TabIcon from './components/TabIcon';
 import HomeIcon from './components/HomeIcon';
-
+import CameraRollIcon from './components/CameraRollIcon';
+import SeasonIcon from './components/SeasonIcon';
+import UpCameraRollIcon from './components/UpCameraRollIcon';
+console.disableYellowBox = true;
 const styles = StyleSheet.create({
     tabBar: {
       backgroundColor: colors.mintGreen,
@@ -60,7 +63,7 @@ const App = () => (
           navigationBarTitleImage={require("../assets/line/logo.png")}
           navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
           navigationBarStyle={styles.navBar}
-          icon={TabIcon}
+          icon={HomeIcon}
           tabBarBackgroundImage={require("../assets/line/home.png")}
           titleStyle={styles.navBarTitle}
           />
@@ -69,7 +72,7 @@ const App = () => (
           title="CameraRoll"
           navigationBarTitleImage={require("../assets/line/logo.png")}
           navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
-          icon={TabIcon}
+          icon={CameraRollIcon}
           onPress={() => Actions.add()}
           />
         <Scene
@@ -78,7 +81,7 @@ const App = () => (
           title="Season"
           navigationBarTitleImage={require("../assets/line/logo.png")}
           navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
-          icon={TabIcon}
+          icon={SeasonIcon}
           navigationBarStyle={styles.navBar}
           />
       </Scene>
@@ -91,7 +94,7 @@ const App = () => (
             title="CameraRoll"
             navigationBarTitleImage={require("../assets/line/logo.png")}
             navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
-            icon={TabIcon}
+            icon={UpCameraRollIcon}
             leftTitle="Cancel"
             leftButtonTextStyle={styles.leftTitle}
             onLeft={Actions.pop}
@@ -107,7 +110,7 @@ const App = () => (
             title="Camera"
             navigationBarTitleImage={require("../assets/line/logo.png")}
             navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
-            icon={TabIcon}
+            icon={CameraRollIcon}
             leftTitle="Cancel"
             leftButtonTextStyle={styles.leftTitle}
             onLeft={Actions.pop}

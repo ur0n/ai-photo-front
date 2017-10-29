@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HomeIcon = props => {
+const CameraRollIcon = props => {
   console.log(props.selected);
   return (
     <View>
@@ -26,10 +26,10 @@ const HomeIcon = props => {
           styles.tabText :
           styles.tabTextActive
         }
-        source={require('../../assets/line/s_home.png')}
+        source={require('../../assets/line/s_camera.png')}
         />
     </View>
   );
 }
 
-export default HomeIcon;
+export default CameraRollIcon;
