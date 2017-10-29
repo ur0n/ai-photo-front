@@ -18,13 +18,14 @@ import Season from './containers/Season';
 import FromCameraRoll from './containers/FromCameraRoll';
 import PostPhoto from './containers/PostPhoto';
 import TabIcon from './components/TabIcon';
+import HomeIcon from './components/HomeIcon';
 
 const styles = StyleSheet.create({
     tabBar: {
       backgroundColor: colors.mintGreen,
     },
     navBar: {
-      backgroundColor: colors.mintGreen,
+      backgroundColor: colors.white,
     },
     navBarTitle: {
       fontSize: 20,
@@ -32,13 +33,18 @@ const styles = StyleSheet.create({
       color: 'white',
     },
     leftTitle: {
-      color: 'white'
+      color: colors.lightRed
     },
     rightTitle: {
-      color: 'white',
+      color: colors.lightRed,
     },
     leftButton: {
       backgroundColor: 'white'
+    },
+    navBarTitleImageStyle: {
+      resizeMode: 'contain',
+      position: 'absolute',
+      top: -73
     }
 });
 
@@ -51,13 +57,18 @@ const App = () => (
           initial
           component={PhotoList}
           title="List"
-          icon={TabIcon}
+          navigationBarTitleImage={require("../assets/line/logo.png")}
+          navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
           navigationBarStyle={styles.navBar}
+          icon={TabIcon}
+          tabBarBackgroundImage={require("../assets/line/home.png")}
           titleStyle={styles.navBarTitle}
           />
         <Scene
           key="addPhoto"
           title="CameraRoll"
+          navigationBarTitleImage={require("../assets/line/logo.png")}
+          navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
           icon={TabIcon}
           onPress={() => Actions.add()}
           />
@@ -65,9 +76,10 @@ const App = () => (
           key="Season"
           component={Season}
           title="Season"
+          navigationBarTitleImage={require("../assets/line/logo.png")}
+          navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
           icon={TabIcon}
           navigationBarStyle={styles.navBar}
-          titleStyle={styles.navBarTitle}
           />
       </Scene>
       <Scene key="add" direction="vertical">
@@ -77,6 +89,8 @@ const App = () => (
             panHandlers={null}
             component={FromCameraRoll}
             title="CameraRoll"
+            navigationBarTitleImage={require("../assets/line/logo.png")}
+            navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
             icon={TabIcon}
             leftTitle="Cancel"
             leftButtonTextStyle={styles.leftTitle}
@@ -91,6 +105,8 @@ const App = () => (
             panHandlers={null}
             component={Camera}
             title="Camera"
+            navigationBarTitleImage={require("../assets/line/logo.png")}
+            navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
             icon={TabIcon}
             leftTitle="Cancel"
             leftButtonTextStyle={styles.leftTitle}
@@ -102,6 +118,8 @@ const App = () => (
         <Scene
           key="postImage"
           component={PostPhoto}
+          navigationBarTitleImage={require("../assets/line/logo.png")}
+          navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
           panHandlers={null}
           title="PostImage"
           icon={TabIcon}

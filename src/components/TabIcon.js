@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
   tabTextActive: {
     fontWeight: 'bold',
-    color: colors.mintGreen,
+    color: colors.lightRed,
   },
 });
 
