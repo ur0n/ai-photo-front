@@ -29,7 +29,7 @@ class FromCameraRoll extends Component {
         <View style={styles.selected}>
           {
             isFetched? (
-              <Image key={"first"} style={styles.selectedPhoto} source={{uri: selectPhoto.uri}} />
+              <Image key={"first"} style={styles.selectedPhoto} source={{uri: selectPhoto.image.uri}} />
             ) : null
           }
         </View>
@@ -41,7 +41,7 @@ class FromCameraRoll extends Component {
                   photos.map((photo, i) => {
                     return (
                       <TouchableHighlight key={i} onPress={() => this.props.selectPhoto(photo)}>
-                        <Image key={i} style={styles.photo} source={{uri: photo.uri}} />
+                        <Image key={i} style={styles.photo} source={{uri: photo.image.uri}} />
                       </TouchableHighlight>
                     );
                   })
