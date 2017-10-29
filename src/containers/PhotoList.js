@@ -2,14 +2,24 @@ import React, { Component } from 'react';
 import {
   TouchableHighlight,
   View,
-  Text,
   Image,
   StyleSheet,
   FlatList,
   RefreshControl,
-  ScrollView
 } from 'react-native';
-
+import {
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right } from 'native-base';
 import { connect } from 'react-redux';
 import { getPhotoList, updatePhotoList } from '../actions/photoList';
 import { colors } from '../config';
@@ -37,15 +47,23 @@ class PhotoList extends Component{
     const ext = ps.substring(ps.length -3, ps.length)
     if(ext === "jpg" || ext === "png"){
       return (
-        <Image
-          style={styles.photo}
-          source={{uri: "https://s3-ap-northeast-1.amazonaws.com/shop-bot-view/" + item.image.String}}
-          />
-      )
+          <Card style={styles.photo}>
+            <CardItem>
+              <Left>
+                <Body>
+                  <Text>NativeBase</Text>
+                  <Text note>GeekyAnts</Text>
+                </Body>
+              </Left>
+            </CardItem>
+            <CardItem cardBody>
+              <Image source={{uri: "https://s3-ap-northeast-1.amazonaws.com/shop-bot-view/" + item.image.String}} style={{height: 200, width: 300, flex: 1}}/>
+            </CardItem>
+          </Card>
+    );
     }
   }
 
-          // source={{uri: "https://b.sakurastorage.jp/ai-photo/images/" + item.image.String}}
   handleLoadMore(){
     const { page } = this.props.photoList;
     this.props.getPhotoList(page + 1);
@@ -110,13 +128,8 @@ const styles = StyleSheet.create({
   photo: {
     height: 300,
     width: 300,
-    margin: 1,
-    borderRadius: 10,
-    backgroundColor: colors.mintGreen,
   },
   list: {
-    paddingRight: 40,
-    paddingLeft: 40
   }
 });
 
