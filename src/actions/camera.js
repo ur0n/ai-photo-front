@@ -3,30 +3,27 @@ import Camera from 'react-native-camera';
 
 export function takePicture(camera){
   return dispatch => {
-    // Dateオブジェクトを作成
-    var date = new Date() ;
-    // UNIXタイムスタンプを取得する (ミリ秒単位)
-    var a = date.getTime() ;
-    // UNIXタイムスタンプを取得する (秒単位 - PHPのtime()と同じ)
-    var b = Math.floor( a / 1000 ) ;
-
     return camera.capture()
     .then(data => {
       // TODO geolocationを許可してるかしてないかで分ける
-      navigator.geolocation.getCurrentPosition(pos => {
-        if(pos == null) console.error("did't get position");
-        const file = {
-          image: {
-            uri: data.path
-          },
-          timestamp: pos.timestamp,
-          location: {
-            longitude: pos.coords.longitude,
-            latitude: pos.coords.latitude
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(pos => {
+          if(pos == null) console.error("did't get position");
+          // data.data base64
+          const file = {
+            image: data.data,
+            timestamp: pos.timestamp,
+            location: {
+              longitude: pos.coords.longitude,
+              latitude: pos.coords.latitude
+            }
           }
-        }
-        dispatch(takePictureSuccess(file));
+          resolve(file);
+        })
       })
+    })
+    .then(file => {
+      return dispatch(takePictureSuccess(file));
     })
     .catch(err => dispatch(takePictureFailure(err)));
   }

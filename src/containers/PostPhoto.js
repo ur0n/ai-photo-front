@@ -5,43 +5,115 @@ import {
     Text,
     TouchableHighlight,
     StyleSheet,
+    TextInput,
+    ScrollView,
+    NativeModules,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import DatePicker from 'react-native-datepicker'
+
 import { storePhotoToServer } from '../actions/postPhoto';
 import { colors } from '../config';
-
 
 class PostPhoto extends Component {
   constructor(props){
     super(props);
+    this.state = { title: 'test', date: "2016-05-15" };
   }
 
+  componentWillMount(){
+    // TODO cameraとcamerarollで同じデータを変更する
+    const { photo } = this.props.camera;
+    const { selectPhoto } = this.props.cameraRoll;
+
+    //navigater params
+    const isCameraRoll = this.props.isCameraRoll;
+
+    // 苦肉の作。。。
+    if(isCameraRoll) {
+      return new Promise((resolve, reject) => {
+        NativeModules.RNImageToBase64.getBase64String(selectPhoto.image.uri, (err, base64) => {
+          resolve(base64);
+          if(err){
+            reject(err)
+          }
+        })
+      }).then(base64 => {
+      const uploadPhoto = selectPhoto;
+      uploadPhoto.image = base64;
+      console.log("[LOG]", uploadPhoto);
+      const { location, timestamp, image } = uploadPhoto;
+      const dateString = getDateString(timestamp);
+
+      this.setState(state => {
+        return {...state, location, date: dateString, photo: image, timestamp}
+      })
+    })
+  }else {
+    // const uploadPhoto = isCameraRoll? selectPhoto : photo
+    const uploadPhoto = photo
+    console.log("[LOG]", uploadPhoto);
+    const { location, timestamp, image } = uploadPhoto;
+    const dateString = getDateString(timestamp);
+
+    this.setState(state => {
+      return {...state, location, date: dateString, photo: image, timestamp}
+    })
+  }
+}
+
   postPhoto(){
-    const selectPhoto = this.props.isCameraRoll? this.props.cameraRoll.selectPhoto: this.props.camera.photo;
-    this.props.postPhoto(selectPhoto);
+    const { title, timestamp, photo, location } = this.state;
+    const body = { title, timestamp, photo, location };
+    this.props.postPhoto(body);
 
     Actions.pop();
   }
 
   render(){
-    const { photo } = this.props.camera;
-    const { selectPhoto } = this.props.cameraRoll;
-    //navigater params
-    const isCameraRoll = this.props.isCameraRoll;
-    const uploadPhoto = isCameraRoll? selectPhoto : photo
-
+    const { photo } = this.state;
     return(
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.contents}>
-          {uploadPhoto !== null &&
-            <Image key={"first"} style={styles.bigPhoto} source={{uri: uploadPhoto.image.uri}} />
+          {photo !== null &&
+            <Image key={"first"} style={styles.bigPhoto} source={{uri: "data:image/jpeg;base64," + photo}} />
           }
+        </View>
+        <View style={styles.form}>
+          <View style={styles.formRow}>
+            <Text style={styles.formKey}>
+              Title
+            </Text>
+            <TextInput
+              style={styles.container}
+              onChangeText={(title) => this.setState({title})}
+              value={this.state.title}
+              />
+          </View>
+          <View style={styles.formRow}>
+            <Text style={styles.formKey}>
+              Time
+            </Text>
+            <DatePicker
+              style={{width: 200}}
+              date={this.state.date}
+              mode="date"
+              placeholder="select date"
+              format="YYYY-MM-DD"
+              minDate="1960-01-01"
+              maxDate="2020-01-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              onDateChange={(date) => {this.setState({date: date})}}
+            />
+        </View>
+
         </View>
         <TouchableHighlight style={styles.button} onPress={this.postPhoto.bind(this)}>
           <Text style={styles.buttonText}>Post Photo!</Text>
         </TouchableHighlight>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -57,6 +129,18 @@ const styles = StyleSheet.create({
   bigPhoto: {
     flex: 1,
     margin: 10
+  },
+  form: {
+    flex: 1
+  },
+  formRow: {
+    height: 40,
+    borderWidth: 1,
+    flexDirection: "row",
+  },
+  formKey: {
+    flex: 1,
+    textAlign: 'center',
   },
   button: {
     flex: 1,
@@ -82,8 +166,16 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return {
-    postPhoto: photo => dispatch(storePhotoToServer(photo))
+    postPhoto: body => dispatch(storePhotoToServer(body))
   }
+}
+
+function getDateString(time){
+  const date = new Date(time);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year}-${month}-${day}`
 }
 
 export default connect(

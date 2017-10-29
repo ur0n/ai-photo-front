@@ -4,7 +4,7 @@ import Camera from 'react-native-camera';
 const initialState = {
   camera: {
     aspect: Camera.constants.Aspect.fill,
-    captureTarget: Camera.constants.CaptureTarget.temp,
+    captureTarget: Camera.constants.CaptureTarget.memory,
     type: Camera.constants.Type.back,
     orientation: Camera.constants.Orientation.auto,
     flashMode: Camera.constants.FlashMode.auto,
