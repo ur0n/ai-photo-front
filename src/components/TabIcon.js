@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const TabIcon = props => {
+export const TabIcon = props => {
   console.log(props.selected);
   return (
     <Text
@@ -30,5 +30,3 @@ const TabIcon = props => {
     </Text>
   );
 }
-
-export default TabIcon;

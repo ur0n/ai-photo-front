@@ -10,7 +10,7 @@ import {
  } from 'react-native';
  import { colors } from '../config';
 
-class SeasonTabBar extends React.Component {
+class SeasonTabBar extends Component {
   renderTabOption(name, page) {
   };
 

@@ -1,28 +1,33 @@
 //TODO:Warningが消えない、フッターのタブバーと被って邪魔
 import React from 'react';
-import {
-    StyleSheet,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
     Scene,
     Router,
     Modal,
     Actions
 } from 'react-native-router-flux';
-import { colors } from './config';
 
-import List from './containers/List';
-import PhotoList from './containers/PhotoList';
-import Camera from './containers/Camera';
-import Season from './containers/Season';
-import FromCameraRoll from './containers/FromCameraRoll';
-import PostPhoto from './containers/PostPhoto';
+import { colors } from './config';
 import TabIcon from './components/TabIcon';
-import HomeIcon from './components/HomeIcon';
-import CameraRollIcon from './components/CameraRollIcon';
-import SeasonIcon from './components/SeasonIcon';
-import UpCameraRollIcon from './components/UpCameraRollIcon';
+
+import {
+  HomeIcon,
+  CameraRollIcon,
+  SeasonIcon,
+  UpCameraRollIcon
+} from './components';
+
+import {
+  PhotoListScreen,
+  CameraScreen,
+  FromCameraRollScreen,
+  SeasonScreen,
+  PostPhotoScreen
+} from './containers';
+
 console.disableYellowBox = true;
+
 const styles = StyleSheet.create({
     tabBar: {
       backgroundColor: colors.mintGreen,
@@ -58,7 +63,7 @@ const App = () => (
         <Scene
           key="list"
           initial
-          component={PhotoList}
+          component={PhotoListScreen}
           title="List"
           navigationBarTitleImage={require("../assets/line/logo.png")}
           navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
@@ -77,7 +82,7 @@ const App = () => (
           />
         <Scene
           key="Season"
-          component={Season}
+          component={SeasonScreen}
           title="Season"
           navigationBarTitleImage={require("../assets/line/logo.png")}
           navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
@@ -90,7 +95,7 @@ const App = () => (
           <Scene
             key="cameraRoll"
             panHandlers={null}
-            component={FromCameraRoll}
+            component={FromCameraRollScreen}
             title="CameraRoll"
             navigationBarTitleImage={require("../assets/line/logo.png")}
             navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
@@ -106,7 +111,7 @@ const App = () => (
           <Scene
             key="camera"
             panHandlers={null}
-            component={Camera}
+            component={CameraScreen}
             title="Camera"
             navigationBarTitleImage={require("../assets/line/logo.png")}
             navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
@@ -120,7 +125,7 @@ const App = () => (
         </Scene>
         <Scene
           key="postImage"
-          component={PostPhoto}
+          component={PostPhotoScreen}
           navigationBarTitleImage={require("../assets/line/logo.png")}
           navigationBarTitleImageStyle={styles.navBarTitleImageStyle}
           panHandlers={null}

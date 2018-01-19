@@ -145,7 +145,7 @@ function mapDispatchToProps (dispatch) {
   };
 }
 
-export default connect(
+export const PhotoListScreen = connect(
   mapStateToProps,
   mapDispatchToProps
 )(PhotoList);

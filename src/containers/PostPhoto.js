@@ -178,7 +178,7 @@ function getDateString(time){
   return `${year}-${month}-${day}`
 }
 
-export default connect(
+export const PostPhotoScreen = connect(
   mapStateToProps,
   mapDispatchToProps
 )(PostPhoto);

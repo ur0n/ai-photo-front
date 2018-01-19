@@ -121,7 +121,7 @@ function mapDispatchToProps (dispatch) {
   };
 }
 
-export default connect(
+export const SeasonScreen = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Season);

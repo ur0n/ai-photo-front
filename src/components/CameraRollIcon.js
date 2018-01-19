@@ -1,35 +1,6 @@
 import React from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-    Image
-} from 'react-native';
-import { colors } from '../config';
+import Icon from './Icon';
 
-const styles = StyleSheet.create({
-  tabText: {
-    backgroundColor: colors.white,
-  },
-  tabTextActive: {
-    backgroundColor: colors.white,
-  },
-});
-
-const CameraRollIcon = props => {
-  console.log(props.selected);
-  return (
-    <View>
-      <Image
-        style={
-          !props.selected ?
-          styles.tabText :
-          styles.tabTextActive
-        }
-        source={require('../../assets/line/s_camera.png')}
-        />
-    </View>
-  );
-}
-
-export default CameraRollIcon;
+export const CameraRollIcon = props => (
+  <Icon {...props} iconImage={require('../../assets/line/s_camera.png')}/>
+);

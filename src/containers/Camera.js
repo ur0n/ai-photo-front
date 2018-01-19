@@ -172,7 +172,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
+export const CameraScreen = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Camera1);

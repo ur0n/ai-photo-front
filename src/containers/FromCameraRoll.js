@@ -97,7 +97,7 @@ function mapDispatchToProps(dispatch){
     selectPhoto: photo => dispatch(selectUploadPhoto(photo))
   };
 }
-export default connect(
+export const FromCameraRollScreen = connect(
   mapStateToProps,
   mapDispatchToProps
 )(FromCameraRoll);
