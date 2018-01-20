@@ -10,7 +10,55 @@ import {
  } from 'react-native';
  import { colors } from '../config';
 
-class SeasonTabBar extends Component {
+
+ const styles = StyleSheet.create({
+   tab: {
+     flex: 1,
+     alignItems: 'center',
+     justifyContent: 'center'
+   },
+   flexOne: {
+     flex: 1
+   },
+   tabs: {
+     height: 50,
+     flexDirection: 'row',
+     justifyContent: 'space-around',
+     marginBottom: 5,
+     borderWidth: 1,
+     borderTopWidth: 0,
+     borderLeftWidth: 0,
+     borderRightWidth: 0
+   },
+   season: {
+     flex: 1,
+     height: 50,
+     alignItems: 'center',
+     justifyContent: "center",
+     backgroundColor: 'white'
+   }
+ });
+
+ export class SeasonTabBar extends Component {
+   static propsTypes = {
+     goToPage: PropTypes.func,
+     activeTab: PropTypes.number,
+     tabs: PropTypes.array,
+     backgroundColor: PropTypes.string,
+     activeTextColor: PropTypes.string,
+     inactiveTextColor: PropTypes.string,
+     textStyle: Text.propTypes.style,
+     tabStyle: ViewPropTypes.style,
+     renderTab: PropTypes.func,
+     underlineStyle: ViewPropTypes.style
+  }
+
+  static defaultProps = {
+   activeTextColor: colors.mintGreen,
+   inactiveTextColor: colors.lightGray,
+   backgroundColor: null
+  }
+
   renderTabOption(name, page) {
   };
 
@@ -21,7 +69,7 @@ class SeasonTabBar extends Component {
 
     return (
       <TouchableOpacity
-        style={styles[name]}
+        style={styles.season}
         key={name}
         accessible={true}
         accessibilityLabel={name}
@@ -73,59 +121,3 @@ class SeasonTabBar extends Component {
     );
   };
 };
-
-const styles = StyleSheet.create({
-  tab: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  flexOne: {
-    flex: 1
-  },
-  tabs: {
-    height: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 5,
-    borderWidth: 1,
-    borderTopWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0
-  },
-  Spring: seasonView(),
-  Summer: seasonView(),
-  Autumn: seasonView(),
-  Winter: seasonView()
-});
-
-function seasonView(){
-  return {
-    flex: 1,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: "center",
-    backgroundColor: 'white'
-  }
-}
-
-SeasonTabBar.propsTypes = {
-  goToPage: PropTypes.func,
-  activeTab: PropTypes.number,
-  tabs: PropTypes.array,
-  backgroundColor: PropTypes.string,
-  activeTextColor: PropTypes.string,
-  inactiveTextColor: PropTypes.string,
-  textStyle: Text.propTypes.style,
-  tabStyle: ViewPropTypes.style,
-  renderTab: PropTypes.func,
-  underlineStyle: ViewPropTypes.style
-};
-
-SeasonTabBar.defaultProps = {
-  activeTextColor: colors.mintGreen,
-  inactiveTextColor: colors.lightGray,
-  backgroundColor: null
-}
-
-module.exports = SeasonTabBar;

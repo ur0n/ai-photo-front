@@ -11,56 +11,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getPhotosForCameraRoll, selectUploadPhoto } from '../actions/cameraRoll';
-
-//TODO 画像のトリミング
-class FromCameraRoll extends Component {
-  constructor(props){
-    super(props);
-  }
-
-  componentDidMount(){
-    this.props.getPhotos();
-  }
-
-  render(){
-    const { photos, selectPhoto, isFetched } = this.props.cameraRoll;
-    return (
-      <View style={styles.container}>
-        <View style={styles.selected}>
-          {
-            isFetched? (
-              <Image key={"first"} style={styles.selectedPhoto} source={{uri: selectPhoto.image.uri}} />
-            ) : null
-          }
-        </View>
-        <View style={{flex: 1}}>
-          <ScrollView>
-            <View style={styles.photoGrid}>
-              {
-                isFetched? (
-                  photos.map((photo, i) => {
-                    return (
-                      <TouchableHighlight key={i} onPress={() => this.props.selectPhoto(photo)}>
-                        <Image key={i} style={styles.photo} source={{uri: photo.image.uri}} />
-                      </TouchableHighlight>
-                    );
-                  })
-                ) : null
-              }
-            </View>
-          </ScrollView>
-        </View>
-      </View>
-    );
-  }
-}
+import { ViewContainer } from '../components';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    marginBottom: 50
-  },
   selected: {
     flex: 2,
   },
@@ -97,6 +50,50 @@ function mapDispatchToProps(dispatch){
     selectPhoto: photo => dispatch(selectUploadPhoto(photo))
   };
 }
+
+//TODO 画像のトリミング
+class FromCameraRoll extends Component {
+  constructor(props){
+    super(props);
+  }
+
+  componentDidMount(){
+    this.props.getPhotos();
+  }
+
+  render(){
+    const { photos, selectPhoto, isFetched } = this.props.cameraRoll;
+    return (
+      <ViewContainer>
+        <View style={styles.selected}>
+          {
+            isFetched? (
+              <Image key={"first"} style={styles.selectedPhoto} source={{uri: selectPhoto.image.uri}} />
+            ) : null
+          }
+        </View>
+        <View style={{flex: 1}}>
+          <ScrollView>
+            <View style={styles.photoGrid}>
+              {
+                isFetched? (
+                  photos.map((photo, i) => {
+                    return (
+                      <TouchableHighlight key={i} onPress={() => this.props.selectPhoto(photo)}>
+                        <Image key={i} style={styles.photo} source={{uri: photo.image.uri}} />
+                      </TouchableHighlight>
+                    );
+                  })
+                ) : null
+              }
+            </View>
+          </ScrollView>
+        </View>
+      </ViewContainer>
+    );
+  }
+}
+
 export const FromCameraRollScreen = connect(
   mapStateToProps,
   mapDispatchToProps

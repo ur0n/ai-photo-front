@@ -10,7 +10,71 @@ import { connect } from 'react-redux';
 import Camera from 'react-native-camera';
 import { Actions } from 'react-native-router-flux';
 
-import { takePicture, switchCameraType, switchFlashMode } from '../actions/camera';
+import { ViewContainer } from '../components'
+
+import {
+  takePicture,
+  switchCameraType,
+  switchFlashMode
+} from '../actions/camera';
+
+
+const styles = StyleSheet.create({
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  overlay: {
+    position: 'absolute',
+    padding: 16,
+    right: 0,
+    left: 0,
+  },
+  topOverlay: {
+    top: 0,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  bottomOverlay: {
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  captureButton: {
+    padding: 15,
+    backgroundColor: 'white',
+    borderRadius: 40,
+  },
+  typeButton: {
+    padding: 5,
+  },
+  flashButton: {
+    padding: 5,
+  },
+  buttonsSpace: {
+    width: 10,
+  },
+});
+
+const mapStateToProps = state => {
+  return {
+    camera: state.camera
+  };
+}
+
+//TODO reselect
+const mapDispatchToProps = dispatch => {
+  return {
+    takePicture: camera => dispatch(takePicture(camera)),
+    switchType: cameraType => dispatch(switchCameraType(cameraType)),
+    switchFlash: flashMode => dispatch(switchFlashMode(flashMode))
+  };
+}
 
 class Camera1 extends Component {
   constructor(props) {
@@ -51,7 +115,7 @@ class Camera1 extends Component {
   render() {
     const { camera, photo, isRecording } = this.props.camera;
     return (
-      <View style={styles.container}>
+      <ViewContainer>
         <StatusBar
           animated
           hidden
@@ -89,87 +153,21 @@ class Camera1 extends Component {
           </TouchableOpacity>
         </View>
         <View style={[styles.overlay, styles.bottomOverlay]}>
-          {
-            !isRecording
+          {!isRecording
             &&
             <TouchableOpacity
               style={styles.captureButton}
               onPress={this.takePicture.bind(this)}
               >
-              <Image
-                source={require('../../assets/ic_photo_camera_36pt.png')}
-                />
+              <Image source={require('../../assets/ic_photo_camera_36pt.png')} />
             </TouchableOpacity>
             ||
             null
           }
         </View>
-      </View>
+      </ViewContainer>
     );
   }
-}
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  overlay: {
-    position: 'absolute',
-    padding: 16,
-    right: 0,
-    left: 0,
-    alignItems: 'center',
-  },
-  topOverlay: {
-    top: 70,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  bottomOverlay: {
-    bottom: 40,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  captureButton: {
-    padding: 15,
-    backgroundColor: 'white',
-    borderRadius: 40,
-  },
-  typeButton: {
-    padding: 5,
-  },
-  flashButton: {
-    padding: 5,
-  },
-  buttonsSpace: {
-    width: 10,
-  },
-});
-
-function mapStateToProps(state) {
-  return {
-    camera: state.camera
-  };
-}
-
-//TODO reselect
-function mapDispatchToProps(dispatch) {
-  return {
-    takePicture: camera => dispatch(takePicture(camera)),
-    switchType: cameraType => dispatch(switchCameraType(cameraType)),
-    switchFlash: flashMode => dispatch(switchFlashMode(flashMode))
-  };
 }
 
 export const CameraScreen = connect(

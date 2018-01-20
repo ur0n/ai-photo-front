@@ -14,16 +14,42 @@ import {
     CachedImage,
     ImageCacheProvider
 } from 'react-native-cached-image';
-
-
 import { connect } from 'react-redux';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
+
+import { SeasonTabBar, ViewContainer } from '../components';
 import { fetchSeasonListFromAPI, changeTab } from '../actions/season';
-import SeasonTabBar from '../components/SeasonTabBar';
 import { colors } from '../config';
 
+const getPhotoSize = () => Dimensions.get('window').width / 4 - 3;
+const styles = StyleSheet.create({
+  photoContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  photo: {
+    margin: 1,
+    backgroundColor: colors.whilteGray,
+    width: getPhotoSize(),
+    height: getPhotoSize(),
+  }
+});
+
+const mapStateToProps = state => {
+  return {
+    season: state.season
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getSeasonPhotoList: season => dispatch(fetchSeasonListFromAPI(season)),
+    changeTab: page => dispatch(changeTab(page))
+  };
+}
+
 class Season extends Component {
-  static dimensions = { width: getPhotoSize(), height: getPhotoSize() };
   constructor(props){
     super(props);
     this.season = ['Spring', 'Summer', 'Autumn', 'Winter'];
@@ -57,9 +83,8 @@ class Season extends Component {
   render(){
     const { seasonPhotoList, thisSeason } = this.props.season;
     return (
-      <View style={styles.container}>
+      <ViewContainer>
         <ScrollableTabView
-          style={{marginTop: 64}}
           renderTabBar={() => <SeasonTabBar />}
           onChangeTab={this.onChangeTab.bind(this)}
           >
@@ -80,45 +105,9 @@ class Season extends Component {
             })
           }
         </ScrollableTabView>
-      </View>
+      </ViewContainer>
     )
   }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginBottom: 50
-  },
-  photoContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: "center"
-  },
-  photo: {
-    margin: 1,
-    borderRadius: 5,
-    backgroundColor: colors.mintGreen,
-    width: Season.dimensions.width,
-    height: Season.dimensions.height,
-  }
-});
-
-function getPhotoSize(){
-  return Dimensions.get('window').width / 4 - 2;
-}
-
-function mapStateToProps (state) {
-  return {
-    season: state.season
-  };
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    getSeasonPhotoList: season => dispatch(fetchSeasonListFromAPI(season)),
-    changeTab: page => dispatch(changeTab(page))
-  };
 }
 
 export const SeasonScreen = connect(

@@ -13,8 +13,70 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import DatePicker from 'react-native-datepicker'
 
+import { ViewContainer } from '../components';
 import { storePhotoToServer } from '../actions/postPhoto';
 import { colors } from '../config';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  contents: {
+    flex: 5,
+    alignItems: 'stretch',
+  },
+  bigPhoto: {
+    flex: 1,
+    margin: 10
+  },
+  form: {
+    flex: 1
+  },
+  formRow: {
+    height: 40,
+    borderWidth: 1,
+    flexDirection: "row",
+  },
+  formKey: {
+    flex: 1,
+    textAlign: 'center',
+  },
+  button: {
+    flex: 1,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    backgroundColor: colors.mintGreen
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white'
+  }
+});
+
+const mapStateToProps = state => {
+  return {
+    cameraRoll: state.cameraRoll,
+    camera: state.camera
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    postPhoto: body => dispatch(storePhotoToServer(body))
+  }
+}
+
+const getDateString = time => {
+  const date = new Date(time);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year}-${month}-${day}`
+}
+
 
 class PostPhoto extends Component {
   constructor(props){
@@ -74,9 +136,10 @@ class PostPhoto extends Component {
   render(){
     const { photo } = this.state;
     return(
-      <ScrollView contentContainerStyle={styles.container}>
+      <ViewContainer hideTabBar>
         <View style={styles.contents}>
-          {photo !== null &&
+          {photo !== null
+            &&
             <Image key={"first"} style={styles.bigPhoto} source={{uri: "data:image/jpeg;base64," + photo}} />
           }
         </View>
@@ -107,77 +170,15 @@ class PostPhoto extends Component {
               cancelBtnText="Cancel"
               onDateChange={(date) => {this.setState({date: date})}}
             />
-        </View>
-
+          </View>
         </View>
         <TouchableHighlight style={styles.button} onPress={this.postPhoto.bind(this)}>
           <Text style={styles.buttonText}>Post Photo!</Text>
         </TouchableHighlight>
-      </ScrollView>
+      </ViewContainer>
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  contents: {
-    flex: 5,
-    alignItems: 'stretch',
-    paddingTop: 65
-  },
-  bigPhoto: {
-    flex: 1,
-    margin: 10
-  },
-  form: {
-    flex: 1
-  },
-  formRow: {
-    height: 40,
-    borderWidth: 1,
-    flexDirection: "row",
-  },
-  formKey: {
-    flex: 1,
-    textAlign: 'center',
-  },
-  button: {
-    flex: 1,
-    margin: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 30,
-    backgroundColor: colors.mintGreen
-  },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white'
-  }
-});
-
-function mapStateToProps(state){
-  return {
-    cameraRoll: state.cameraRoll,
-    camera: state.camera
-  }
-}
-
-function mapDispatchToProps(dispatch){
-  return {
-    postPhoto: body => dispatch(storePhotoToServer(body))
-  }
-}
-
-function getDateString(time){
-  const date = new Date(time);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  return `${year}-${month}-${day}`
-}
-
 export const PostPhotoScreen = connect(
   mapStateToProps,
   mapDispatchToProps
