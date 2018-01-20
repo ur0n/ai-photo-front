@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   photo: {
     margin: 1,
-    backgroundColor: colors.whilteGray,
+    backgroundColor: colors.whiteGray,
     width: getPhotoSize(),
     height: getPhotoSize(),
   }

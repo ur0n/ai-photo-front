@@ -29,35 +29,36 @@ import {
 console.disableYellowBox = true;
 
 const styles = StyleSheet.create({
-    tabBar: {
-      backgroundColor: colors.mintGreen,
-    },
-    navBar: {
-      backgroundColor: colors.white,
-    },
-    navBarTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: 'white',
-    },
-    leftTitle: {
-      color: colors.lightRed
-    },
-    rightTitle: {
-      color: colors.lightRed,
-    },
-    leftButton: {
-      backgroundColor: 'white'
-    },
-    navBarTitleImageStyle: {
-      resizeMode: 'contain',
-      position: 'absolute',
-      top: -73
-    }
+  tabBar: {
+    borderTopWidth: 1,
+    borderColor: colors.whiteGray,
+  },
+  navBar: {
+    backgroundColor: colors.white,
+  },
+  navBarTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  leftTitle: {
+    color: colors.lightRed
+  },
+  rightTitle: {
+    color: colors.lightRed,
+  },
+  leftButton: {
+    backgroundColor: 'white'
+  },
+  navBarTitleImageStyle: {
+    resizeMode: 'contain',
+    position: 'absolute',
+    top: -73
+  }
 });
 
 const App = () => (
-  <Router style={{backgroundColor:'white'}}>
+  <Router>
     <Scene key="root" navigationBarStyle={styles.navBar}>
       <Scene key="tabbar" tabs tabBarStyle={styles.tabBar}>
         <Scene
