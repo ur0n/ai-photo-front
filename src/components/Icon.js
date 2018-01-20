@@ -5,13 +5,18 @@ import {
     StyleSheet,
     Image
 } from 'react-native';
+
 import { colors } from '../config';
 
 const styles = StyleSheet.create({
-  tabText: {
+  active: {
+    width: 35,
+    height: 35,
     backgroundColor: colors.white,
   },
-  tabTextActive: {
+  inactive: {
+    width: 35,
+    height: 35,
     backgroundColor: colors.white,
   },
 });
@@ -22,10 +27,12 @@ const Icon = props => {
       <Image
         style={
           !props.selected ?
-          styles.tabText :
-          styles.tabTextActive
+          styles.inactive :
+          styles.active
         }
-        source={props.iconImage}/>
+      resizeMode='stretch'
+      source={props.iconImage}
+      />
     </View>
   );
 }
