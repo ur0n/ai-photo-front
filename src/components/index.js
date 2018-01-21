@@ -6,3 +6,5 @@ export * from './UpCameraRollIcon';
 export * from './Photo';
 export * from './PhotoCard';
 export * from './SeasonTabBar';
+export * from './PhotoGrid';
+export * from './TouchablePhoto';

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getPhotosForCameraRoll, selectUploadPhoto } from '../actions/cameraRoll';
-import { ViewContainer } from '../components';
+import { ViewContainer, PhotoGrid, TouchablePhoto } from '../components';
 
 const styles = StyleSheet.create({
   selected: {
@@ -26,25 +26,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  photo: {
+  cameraRoll: {
     flex: 1,
-    margin: 1,
-    width: getPhotoSize(),
-    height: getPhotoSize(),
   }
 });
 
-function getPhotoSize(){
-  return Dimensions.get('window').width / 4 - 2;
-}
-
-function mapStateToProps(state){
+const mapStateToProps = state => {
   return {
     cameraRoll: state.cameraRoll
   };
 }
 
-function mapDispatchToProps(dispatch){
+const mapDispatchToProps = dispatch => {
   return {
     getPhotos: () => dispatch(getPhotosForCameraRoll()),
     selectPhoto: photo => dispatch(selectUploadPhoto(photo))
@@ -62,32 +55,26 @@ class FromCameraRoll extends Component {
   }
 
   render(){
-    const { photos, selectPhoto, isFetched } = this.props.cameraRoll;
+    const { photos, selectedPhoto, isFetched, selectPhoto } = this.props.cameraRoll;
     return (
       <ViewContainer>
         <View style={styles.selected}>
-          {
-            isFetched? (
-              <Image key={"first"} style={styles.selectedPhoto} source={{uri: selectPhoto.image.uri}} />
-            ) : null
+          {isFetched
+              &&
+              <Image
+                key={"first"}
+                style={styles.selectedPhoto}
+                source={{uri: selectedPhoto.image.uri}}
+              />
+          }
+          {!isFetched
+              &&
+              // lodingのview
+              null
           }
         </View>
-        <View style={{flex: 1}}>
-          <ScrollView>
-            <View style={styles.photoGrid}>
-              {
-                isFetched? (
-                  photos.map((photo, i) => {
-                    return (
-                      <TouchableHighlight key={i} onPress={() => this.props.selectPhoto(photo)}>
-                        <Image key={i} style={styles.photo} source={{uri: photo.image.uri}} />
-                      </TouchableHighlight>
-                    );
-                  })
-                ) : null
-              }
-            </View>
-          </ScrollView>
+        <View style={styles.cameraRoll}>
+          <PhotoGrid photos={photos} onPress={this.props.selectPhoto} />
         </View>
       </ViewContainer>
     );
