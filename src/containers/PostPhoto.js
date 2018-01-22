@@ -87,22 +87,23 @@ class PostPhoto extends Component {
   componentWillMount(){
     // TODO cameraとcamerarollで同じデータを変更する
     const { photo } = this.props.camera;
-    const { selectPhoto } = this.props.cameraRoll;
+    const { selectedPhoto } = this.props.cameraRoll;
 
     //navigater params
     const isCameraRoll = this.props.isCameraRoll;
 
+
     // 苦肉の作。。。
     if(isCameraRoll) {
       return new Promise((resolve, reject) => {
-        NativeModules.RNImageToBase64.getBase64String(selectPhoto.image.uri, (err, base64) => {
+        NativeModules.RNImageToBase64.getBase64String(selectedPhoto.image.uri, (err, base64) => {
           resolve(base64);
           if(err){
             reject(err)
           }
         })
       }).then(base64 => {
-      const uploadPhoto = selectPhoto;
+      const uploadPhoto = selectedPhoto;
       uploadPhoto.image = base64;
       console.log("[LOG]", uploadPhoto);
       const { location, timestamp, image } = uploadPhoto;
@@ -113,7 +114,7 @@ class PostPhoto extends Component {
       })
     })
   }else {
-    // const uploadPhoto = isCameraRoll? selectPhoto : photo
+    // const uploadPhoto = isCameraRoll? selectedPhoto : photo
     const uploadPhoto = photo
     console.log("[LOG]", uploadPhoto);
     const { location, timestamp, image } = uploadPhoto;

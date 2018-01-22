@@ -6,7 +6,7 @@ import {
     Image
 } from 'react-native';
 
-import { colors } from '../config';
+import { colors, images } from '../config';
 
 const styles = StyleSheet.create({
   active: {
@@ -21,7 +21,12 @@ const styles = StyleSheet.create({
   },
 });
 
+const inactiveIcon = image => image + '_inactive';
+
 const Icon = props => {
+  const { iconImage, selected } = props;
+  const icon = selected? iconImage : inactiveIcon(iconImage);
+
   return (
     <View>
       <Image
@@ -31,7 +36,7 @@ const Icon = props => {
           styles.active
         }
       resizeMode='stretch'
-      source={props.iconImage}
+      source={images[icon]}
       />
     </View>
   );
