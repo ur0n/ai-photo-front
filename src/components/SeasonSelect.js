@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   selectContainer: {
     flex: 1,
     flexDirection: 'row',
+    marginBottom: 3,
   },
   imageOuter: {
     width: 48,
