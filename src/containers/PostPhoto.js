@@ -66,14 +66,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const getDateString = time => {
-  const date = new Date(time);
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  return `${year}-${month}-${day}`
-}
-
 const MapInfo = props => {
   return (
     <View style={styles.mapInfo}></View>
@@ -113,7 +105,7 @@ class PostPhoto extends Component {
         uploadPhoto.image = base64;
         console.log("[LOG]", uploadPhoto);
         const { location, timestamp, image } = uploadPhoto;
-        const dateString = getDateString(timestamp);
+        const dateString = '';
 
         this.setState(state => {
           return {...state, location, date: dateString, photo: image, timestamp}
@@ -154,7 +146,6 @@ class PostPhoto extends Component {
 
   render(){
     const { photo } = this.state;
-    console.log(this.state);
     return(
       <ViewContainer hideTabBar>
         <View style={styles.contents}>

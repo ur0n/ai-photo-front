@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   TouchableHighlight,
@@ -40,6 +40,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  active: {
+    backgroundColor: colors.lightRed,
+  },
+  inactive: {
+    backgroundColor: colors.lightBlue,
+  },
   buttonImage: {
     width: 44,
     height: 44,
@@ -47,16 +53,17 @@ const styles = StyleSheet.create({
 });
 
 const SeasonButton = props => {
+  console.log(props);
   return (
     <View style={styles.seasonButtonContainer}>
       <TouchableHighlight
-        style={styles.imageOuter}
+        style={[styles.imageOuter, props.isSelected? styles.active : styles.inactive]}
         onPress={() => props.selectSeasonHandler(props.season)}
         underlayColor={colors.lightGray}
       >
         <Image
           style={styles.buttonImage}
-          source={images[props.season]}
+          source={images[props.season + '_white']}
           resizeMode='contain'
         />
       </TouchableHighlight>
@@ -64,30 +71,39 @@ const SeasonButton = props => {
   );
 }
 
-export const SeasonSelect = props => {
-  return (
-    <View style={styles.seasonSelect}>
-      <View style={styles.formKey}>
-        <Text style={styles.formText}> 季節 </Text>
+export class SeasonSelect extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      selected: '',
+    }
+  }
+
+  _onSelectSeasonHandler(season){
+    this.setState({selected: season})
+    this.props.selectSeasonHandler(season);
+  }
+
+  render(){
+    return (
+      <View style={styles.seasonSelect}>
+        <View style={styles.formKey}>
+          <Text style={styles.formText}> 季節 </Text>
+        </View>
+        <View style={styles.selectContainer}>
+          {
+            ['spring', 'summer', 'autumn', 'winter'].map((season, i) => (
+              <SeasonButton
+                key={i}
+                isSelected={this.state.selected === season}
+                season={season}
+                selectSeasonHandler={season => this._onSelectSeasonHandler(season)}
+              />
+            ))
+          }
+        </View>
       </View>
-      <View style={styles.selectContainer}>
-        <SeasonButton
-          season='spring'
-          selectSeasonHandler={props.selectSeasonHandler}
-        />
-        <SeasonButton
-          season='summer'
-          selectSeasonHandler={props.selectSeasonHandler}
-        />
-        <SeasonButton
-          season='autumn'
-          selectSeasonHandler={props.selectSeasonHandler}
-        />
-        <SeasonButton
-          season='winter'
-          selectSeasonHandler={props.selectSeasonHandler}
-        />
-      </View>
-    </View>
-  );
+    );
+  }
 }
