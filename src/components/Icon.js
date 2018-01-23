@@ -9,12 +9,7 @@ import {
 import { colors, images } from '../config';
 
 const styles = StyleSheet.create({
-  active: {
-    width: 35,
-    height: 35,
-    backgroundColor: colors.white,
-  },
-  inactive: {
+  icon: {
     width: 35,
     height: 35,
     backgroundColor: colors.white,
@@ -30,13 +25,9 @@ const Icon = props => {
   return (
     <View>
       <Image
-        style={
-          !props.selected ?
-          styles.inactive :
-          styles.active
-        }
-      resizeMode='stretch'
-      source={images[icon]}
+        style={styles.icon}
+        resizeMode='stretch'
+        source={images[icon]}
       />
     </View>
   );

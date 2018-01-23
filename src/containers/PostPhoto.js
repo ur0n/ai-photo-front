@@ -3,57 +3,54 @@ import {
     View,
     Image,
     Text,
+    Picker,
+    Modal,
+    Button,
     TouchableHighlight,
     StyleSheet,
     TextInput,
     ScrollView,
     NativeModules,
+    Dimensions,
+    Animated,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import DatePicker from 'react-native-datepicker'
 
-import { ViewContainer } from '../components';
+import {
+  ViewContainer,
+  EraForm,
+  TitleForm,
+  SeasonSelect,
+} from '../components';
 import { storePhotoToServer } from '../actions/postPhoto';
-import { colors } from '../config';
+import { colors, images } from '../config';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   contents: {
-    flex: 5,
-    alignItems: 'stretch',
+    flex: 3,
+    flexDirection: 'row',
+    borderBottomColor: colors.lightBlack,
+    borderBottomWidth: 1,
   },
-  bigPhoto: {
+  photoContainer: {
     flex: 1,
-    margin: 10
-  },
-  form: {
-    flex: 1
-  },
-  formRow: {
-    height: 40,
-    borderWidth: 1,
-    flexDirection: "row",
-  },
-  formKey: {
-    flex: 1,
-    textAlign: 'center',
-  },
-  button: {
-    flex: 1,
-    margin: 10,
-    justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 30,
-    backgroundColor: colors.mintGreen
+    justifyContent: 'center',
   },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white'
-  }
+  photo: {
+    height: 100,
+    width: 100,
+  },
+  mapInfo: {
+    flex: 2,
+    borderBottomColor: colors.lightBlack,
+    borderBottomWidth: 1,
+  },
+  blank: {
+    flex: 5
+  },
 });
 
 const mapStateToProps = state => {
@@ -77,11 +74,20 @@ const getDateString = time => {
   return `${year}-${month}-${day}`
 }
 
+const MapInfo = props => {
+  return (
+    <View style={styles.mapInfo}></View>
+  );
+}
 
 class PostPhoto extends Component {
   constructor(props){
     super(props);
-    this.state = { title: 'test', date: "2016-05-15" };
+    this.state = {
+      title: '',
+      era: '選択してください',
+      season: 'spring',
+    };
   }
 
   componentWillMount(){
@@ -103,8 +109,19 @@ class PostPhoto extends Component {
           }
         })
       }).then(base64 => {
-      const uploadPhoto = selectedPhoto;
-      uploadPhoto.image = base64;
+        const uploadPhoto = selectedPhoto;
+        uploadPhoto.image = base64;
+        console.log("[LOG]", uploadPhoto);
+        const { location, timestamp, image } = uploadPhoto;
+        const dateString = getDateString(timestamp);
+
+        this.setState(state => {
+          return {...state, location, date: dateString, photo: image, timestamp}
+        })
+      })
+    }else {
+      // const uploadPhoto = isCameraRoll? selectedPhoto : photo
+      const uploadPhoto = photo
       console.log("[LOG]", uploadPhoto);
       const { location, timestamp, image } = uploadPhoto;
       const dateString = getDateString(timestamp);
@@ -112,19 +129,8 @@ class PostPhoto extends Component {
       this.setState(state => {
         return {...state, location, date: dateString, photo: image, timestamp}
       })
-    })
-  }else {
-    // const uploadPhoto = isCameraRoll? selectedPhoto : photo
-    const uploadPhoto = photo
-    console.log("[LOG]", uploadPhoto);
-    const { location, timestamp, image } = uploadPhoto;
-    const dateString = getDateString(timestamp);
-
-    this.setState(state => {
-      return {...state, location, date: dateString, photo: image, timestamp}
-    })
+    }
   }
-}
 
   postPhoto(){
     const { title, timestamp, photo, location } = this.state;
@@ -134,52 +140,46 @@ class PostPhoto extends Component {
     Actions.pop();
   }
 
+  _onTitleChangeHandler(title){
+    this.setState({title})
+  }
+
+  _onEraChangeHdndler(era){
+    this.setState({era});
+  }
+
+  _onSelectSeasonHandler(season){
+    this.setState({season});
+  }
+
   render(){
     const { photo } = this.state;
+    console.log(this.state);
     return(
       <ViewContainer hideTabBar>
         <View style={styles.contents}>
-          {photo !== null
-            &&
-            <Image key={"first"} style={styles.bigPhoto} source={{uri: "data:image/jpeg;base64," + photo}} />
-          }
-        </View>
-        <View style={styles.form}>
-          <View style={styles.formRow}>
-            <Text style={styles.formKey}>
-              Title
-            </Text>
-            <TextInput
-              style={styles.container}
-              onChangeText={(title) => this.setState({title})}
-              value={this.state.title}
-              />
+          <View style={styles.photoContainer}>
+            {photo
+              &&
+              <Image key={"first"} style={styles.photo} source={{uri: "data:image/jpeg;base64," + photo}} />
+            }
+            {!photo
+              &&
+              null
+            }
           </View>
-          <View style={styles.formRow}>
-            <Text style={styles.formKey}>
-              Time
-            </Text>
-            <DatePicker
-              style={{width: 200}}
-              date={this.state.date}
-              mode="date"
-              placeholder="select date"
-              format="YYYY-MM-DD"
-              minDate="1960-01-01"
-              maxDate="2020-01-01"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              onDateChange={(date) => {this.setState({date: date})}}
-            />
-          </View>
+          <TitleForm titleChangeHandler={title => this._onTitleChangeHandler(title)} />
         </View>
-        <TouchableHighlight style={styles.button} onPress={this.postPhoto.bind(this)}>
-          <Text style={styles.buttonText}>Post Photo!</Text>
-        </TouchableHighlight>
+        <EraForm eraChangeHandler={era => this._onEraChangeHdndler(era)} />
+        <SeasonSelect selectSeasonHandler={season => this._onSelectSeasonHandler(season)} />
+        <MapInfo />
+        <View style={styles.blank}>
+        </View>
       </ViewContainer>
     );
   }
 }
+
 export const PostPhotoScreen = connect(
   mapStateToProps,
   mapDispatchToProps

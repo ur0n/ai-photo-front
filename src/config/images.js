@@ -7,4 +7,8 @@ export const images = {
   photo_inactive: require('../../assets/line/photo_inactive.png'),
   season: require('../../assets/line/season.png'),
   season_inactive: require('../../assets/line/season_inactive.png'),
+  spring: require('../../assets/line/spring.png'),
+  summer: require('../../assets/line/summer.png'),
+  autumn: require('../../assets/line/autumn.png'),
+  winter: require('../../assets/line/winter.png'),
 }

@@ -31,10 +31,12 @@ console.disableYellowBox = true;
 const styles = StyleSheet.create({
   tabBar: {
     borderTopWidth: 1,
-    borderColor: colors.whiteGray,
+    borderTopColor: colors.whiteGray,
   },
   navBar: {
     backgroundColor: colors.white,
+    borderBottomColor: colors.whiteGray,
+    borderBottomWidth: 1,
   },
   navBarTitle: {
     fontSize: 20,
